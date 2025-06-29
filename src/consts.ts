@@ -13,12 +13,16 @@ export const SITE: Site = {
 
 export const NAV_LINKS: SocialLink[] = [
   {
-    href: '/blog',
-    label: 'blog',
+    href: '/news',
+    label: 'Tajuk Berdikari',
   },
   {
-    href: '/authors',
-    label: 'authors',
+    href: '/blog',
+    label: 'Cerita Dari Komunitas',
+  },
+  {
+    href: '/event',
+    label: 'Events',
   },
   {
     href: '/about',

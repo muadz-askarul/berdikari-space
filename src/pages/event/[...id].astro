@@ -30,7 +30,6 @@ import { render } from 'astro:content'
 
 export async function getStaticPaths() {
   const posts = await getAllPostsAndSubposts()
-
   return posts.map((post) => ({
     params: { id: post.id },
     props: post,
@@ -185,14 +184,14 @@ const tocSections = await getTOCSections(currentPostId)
             </span>
           </div>
 
-          <!-- {
+          {
             subpostCount > 0 && (
               <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 <Icon name="lucide:file-text" class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </div>
             )
-          } -->
+          }
         </div>
         <div class="flex flex-wrap justify-center gap-2">
           {
@@ -228,7 +227,7 @@ const tocSections = await getTOCSections(currentPostId)
       <Content />
     </article>
 
-    <!-- {
+    {
       (hasChildPosts || isCurrentSubpost) && (
         <SubpostsSidebar
           parentId={
@@ -237,7 +236,7 @@ const tocSections = await getTOCSections(currentPostId)
           className="w-64"
         />
       )
-    } -->
+    }
 
     <PostNavigation
       newerPost={navigation.newer}
