@@ -2,12 +2,7 @@
 import AvatarComponent from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import {
-  getCombinedReadingTime,
-  getSubpostCount,
-  isSubpost,
-  parseAuthors,
-} from '@/lib/data-utils'
+import { parseAuthors } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
@@ -15,21 +10,25 @@ import type { CollectionEntry } from 'astro:content'
 import Link from './Link.astro'
 
 interface Props {
-  entry: CollectionEntry<'blog'> | CollectionEntry<'event'> | CollectionEntry<'news'>
+  entry:
+    | CollectionEntry<'blog'>
+    | CollectionEntry<'event'>
+    | CollectionEntry<'news'>
 }
 
 const { entry } = Astro.props
 const formattedDate = formatDate(entry.data.date)
-const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
-const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
 <div class="hover:bg-secondary/50 transition-colors duration-300 ease-in-out">
-  <Link href={`/${entry.collection}/${entry.id}`} class="flex flex-row gap-2">
+  <Link
+    href={`/${entry.collection}/${entry.id}`}
+    class="flex min-h-[100px] flex-row gap-2 md:min-h-[150px]"
+  >
     {
       entry.data.image && (
-        <div class="rela max-w-[125px] md:max-w-3xs flex items-center">
+        <div class="flex max-w-[40%] items-center md:max-w-3xs">
           <div>
             <Image
               src={entry.data.image}
@@ -44,7 +43,7 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div>
-      <h3 class="mb-1 text-sm md:text-lg font-medium">{entry.data.title}</h3>
+      <h3 class="mb-1 text-sm font-medium md:text-lg">{entry.data.title}</h3>
 
       <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-[10px] md:text-xs"

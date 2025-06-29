@@ -3,66 +3,75 @@ import BlogCard from '@/components/BlogCard.astro'
 import { Carousel } from '@/components/Carousel'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
-import { buttonVariants } from '@/components/ui/button'
-import { CarouselData, SITE } from '@/consts'
+import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getRecentPosts } from '@/lib/data-utils'
-import type { Carousel as CarouselType } from '@/types/carousel'
+import { getRecentNews, getRecentPosts } from '@/lib/data-utils'
 import { Image } from 'astro:assets'
 
+const news = await getRecentNews(SITE.featuredPostCount)
+const featuredNews = news.splice(0, 2).map((item) => ({
+  ...item.data,
+  href: `/news/${item.id}`,
+}))
+
 const blog = await getRecentPosts(SITE.featuredPostCount)
+const featuredBlog = blog.splice(0, 2).map((item) => ({
+  ...item.data,
+  href: `/blog/${item.id}`,
+}))
+
+const carouselData = [...featuredNews, ...featuredBlog]
 ---
 
 <Layout class="max-w-3xl">
-  <PageHead slot="head" title="Home" />
+  <PageHead slot="head" title="Berdikari Space Home Page" />
   <section>
-    <Carousel items={CarouselData} client:visible>
+    <Carousel items={carouselData} client:visible>
       {
-        CarouselData.map(
-          ({ title, description, image, href }: CarouselType) => (
-            <div class="carousel__slide__number relative">
-              <div class="absolute top-0 left-0 flex h-full w-full flex-col items-start justify-end bg-gradient-to-t from-black to-transparent px-4 py-2 select-none">
-                <h4
-                  class="mb-2 text-sm text-white md:text-xl"
-                  data-aos="fade-in"
-                  data-aos-duration="600"
-                >
-                  {title}
-                </h4>
-                <span
-                  class="line-clamp-4 max-h-[40%] max-w-[80%] text-xs font-normal text-white md:mb-4 md:text-base"
-                  data-aos="fade-up"
-                  data-aos-duration="800"
-                >
-                  {description}
-                </span>
-              </div>
-              <Image
-                src={image}
-                class="max-h-[200px] md:max-h-[350px] w-full object-cover"
-                alt={title}
-                inferSize={true}
-              />
+        carouselData.map(({ title, description, image }: any) => (
+          <div class="carousel__slide__number bg-background relative">
+            <div class="absolute top-0 left-0 flex h-full w-full flex-col items-start justify-end bg-gradient-to-t from-black to-transparent to-70% px-4 py-2 select-none">
+              <h4
+                class="mb-2 text-sm text-white md:text-xl"
+                data-aos="fade-in"
+                data-aos-duration="600"
+              >
+                {title}
+              </h4>
+              <span
+                class="line-clamp-4 max-h-[40%] max-w-[80%] text-xs font-normal text-white md:mb-4 md:text-base"
+                data-aos="fade-up"
+                data-aos-duration="800"
+              >
+                {description}
+              </span>
             </div>
-          )
-        )
+            <Image
+              src={image}
+              class="max-h-[200px] w-full object-cover md:max-h-[350px]"
+              alt={title}
+            />
+          </div>
+        ))
       }
     </Carousel>
   </section>
   <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">Tajuk Berdikari</h2>
+    <h2 class="text-2xl font-medium">
+      <Link href="/news"> Tajuk Berdikari </Link>
+    </h2>
     <ul class="flex flex-col gap-y-4">
       {
-        blog.map((post) => (
+        news.map((post) => (
           <li>
             <BlogCard entry={post} />
           </li>
         ))
       }
     </ul>
-    <div class="flex justify-center">
+    <!-- <div class="flex justify-center">
       <Link
-        href="/blog"
+        href="/news"
         class={buttonVariants({ variant: 'ghost' }) + ' group'}
       >
         See all posts <span
@@ -70,10 +79,12 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
           >&rarr;</span
         >
       </Link>
-    </div>
+    </div> -->
   </section>
   <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">Cerita dari Komunitas</h2>
+    <h2 class="text-2xl font-medium">
+      <Link href="/blog">Cerita Dari Komunitas</Link>
+    </h2>
     <ul class="flex flex-col gap-y-4">
       {
         blog.map((post) => (
@@ -83,7 +94,7 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
         ))
       }
     </ul>
-    <div class="flex justify-center">
+    <!-- <div class="flex justify-center">
       <Link
         href="/blog"
         class={buttonVariants({ variant: 'ghost' }) + ' group'}
@@ -93,6 +104,6 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
           >&rarr;</span
         >
       </Link>
-    </div>
+    </div> -->
   </section>
 </Layout>

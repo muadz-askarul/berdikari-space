@@ -1,4 +1,4 @@
-import type { IconMap, SocialLink, Site } from '@/types/types'
+import type { IconMap, SocialLink, Site, NavLink } from '@/types/types'
 import type { Carousel } from '@/types/carousel'
 
 export const SITE: Site = {
@@ -8,11 +8,11 @@ export const SITE: Site = {
   href: 'https://astro-erudite.vercel.app',
   author: 'jktrn',
   locale: 'en-US',
-  featuredPostCount: 2,
-  postsPerPage: 3,
+  featuredPostCount: 5,
+  postsPerPage: 10,
 }
 
-export const NAV_LINKS: SocialLink[] = [
+export const NAV_LINKS: NavLink[] = [
   {
     href: '/news',
     label: 'Tajuk Berdikari',
@@ -27,36 +27,32 @@ export const NAV_LINKS: SocialLink[] = [
   },
   {
     href: '/about',
-    label: 'about',
+    label: 'Tentang Kami',
   },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://github.com/jktrn',
-    label: 'GitHub',
+    href: '',
+    label: 'Instagram',
   },
   {
-    href: 'https://twitter.com/enscry',
+    href: '',
     label: 'Twitter',
   },
   {
-    href: 'mailto:jason@enscribe.dev',
-    label: 'Email',
-  },
-  {
-    href: '/rss.xml',
-    label: 'RSS',
+    href: '',
+    label: 'Mail',
   },
 ]
 
 export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
+  Globe: 'lucide:globe',
+  Github: 'lucide:github',
   Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
+  Mail: 'lucide:mail',
+  Instagram: 'lucide:instagram',
+  Rss: 'lucide:rss',
 }
 
 export const CarouselData: Carousel[] = [

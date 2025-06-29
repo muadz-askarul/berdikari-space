@@ -10,10 +10,17 @@ export const Carousel = (props: {
   children: any
   delay?: number
   playOnInit?: boolean
-  items: CarouselType[]
+  items: (
+    | {
+        title: string
+        description: string
+        href: string
+      }
+    | any
+  )[]
 }) => {
-//   const [isOpen, setIsOpen] = useState(false)
-//   const [selectedItem, setselectedItem] = useState<number>(0)
+  //   const [isOpen, setIsOpen] = useState(false)
+  //   const [selectedItem, setselectedItem] = useState<number>(0)
 
   const { children, playOnInit, delay, items } = props
 
@@ -79,9 +86,9 @@ export const Carousel = (props: {
                   __html: `<div class="carousel__slide__number${child}`,
                 }}
                 onClick={() => {
-                //   setIsOpen(true)
-                //   setselectedItem(idx)
-                navigate(items[idx].href)
+                  //   setIsOpen(true)
+                  //   setselectedItem(idx)
+                  navigate(items[idx].href)
                 }}
               ></div>
             ))}
@@ -123,13 +130,5 @@ export const Carousel = (props: {
         </>
       </ImageOverlay> */}
     </>
-  )
-}
-
-export const CarouselSlide = ({ children, key }: any) => {
-  return (
-    <div className="carousel__slide" key={key}>
-      {children}
-    </div>
   )
 }

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { NAV_LINKS } from '@/consts'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { NAV_LINKS, SOCIAL_LINKS } from '@/consts'
 import { Menu, XIcon } from 'lucide-react'
 import { navigate } from 'astro:transitions/client'
+import { cn } from '@/lib/utils'
+import LucideIcon from './lucide-icon'
 
-const MobileMenu = () => {
+const MobileMenu = (props: { children?: any }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const MobileMenu = () => {
         <span className="sr-only">Open menu</span>
       </Button>
       {isOpen && (
-        <div className="absolute top-[60px] left-0 z-50 flex h-screen w-screen bg-white duration-300 ease-in-out">
+        <div className="bg-background absolute top-[60px] left-0 z-50 flex h-screen w-screen duration-300 ease-in-out">
           <div className="relative h-full w-full flex-col items-center justify-center pt-6">
             {NAV_LINKS.map((item) => (
               <div className="flex flex-col">
@@ -49,6 +51,29 @@ const MobileMenu = () => {
                 <div className="border-b-[1.5px] border-red-400/90"></div>
               </div>
             ))}
+            <div className="hover:text-foreground/80 mt-4 text-red-400/90">
+              <ul
+                className="flex flex-wrap justify-center gap-2"
+                role="list"
+                key={'mobile menu'}
+              >
+                {SOCIAL_LINKS.map(({ href, label }) => (
+                  <li key={'mobile-' + label}>
+                    <a
+                      href={href}
+                      aria-label={label}
+                      title={label}
+                      className={cn(
+                        buttonVariants({ variant: 'outline', size: 'icon' }),
+                        'rounded-full border-none',
+                      )}
+                    >
+                      {isOpen && <LucideIcon name={label} />}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}

@@ -149,6 +149,13 @@ export async function getPostsByTag(
     return posts.filter((post) => post.data.tags?.includes(tag))
 }
 
+export async function getRecentNews(
+    count: number,
+): Promise<CollectionEntry<'news'>[]> {
+    const news = await getAllNews()
+    return news.slice(0, count)
+}
+
 export async function getRecentPosts(
     count: number,
 ): Promise<CollectionEntry<'blog'>[]> {
@@ -238,7 +245,7 @@ export async function parseAuthors(authorIds: string[] = []) {
         return {
             id,
             name: author?.data?.name || id,
-            avatar: author?.data?.avatar || '/static/logo.png',
+            avatar: author?.data?.avatar || '/static/logo.svg',
             isRegistered: !!author,
         }
     })

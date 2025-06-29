@@ -1,3 +1,14 @@
+import { Globe, Github, Twitter, Mail, Instagram, Rss } from 'lucide-react'
+
+export const Icons = {
+  Globe,
+  Github,
+  Twitter,
+  Mail,
+  Instagram,
+  Rss,
+}
+
 export type Site = {
   title: string
   description: string
@@ -8,11 +19,14 @@ export type Site = {
   postsPerPage: number
 }
 
-export type SocialLink = {
+export type NavLink = {
   href: string
   label: string
 }
 
-export type IconMap = {
-  [key: string]: string
+export type SocialLink = {
+  href: string
+  label: keyof typeof Icons
 }
+
+export type IconMap = Partial<Record<keyof typeof Icons, string>>

@@ -45,10 +45,9 @@ const tocSections = await getTOCSections(post_id)
   <PostHead slot="head" post={post} />
   {
     headings?.length > 0 &&
-      !(
-        headings.length === 1 &&
-        headings[0].text === post.data.title
-      ) && <TOCHeader slot="table-of-contents" headings={headings} />
+      !(headings.length === 1 && headings[0].text === post.data.title) && (
+        <TOCHeader slot="table-of-contents" headings={headings} />
+      )
   }
   <section
     class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"
@@ -56,7 +55,11 @@ const tocSections = await getTOCSections(post_id)
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/news', label: 'Tajuk', icon: 'lucide:library-big' },
+          {
+            href: '/news',
+            label: 'Tajuk Berdikari',
+            icon: 'lucide:library-big',
+          },
           {
             href: `/news/${post_id}`,
             label: `${post.data.title}`,
@@ -204,7 +207,7 @@ const tocSections = await getTOCSections(post_id)
 
           scrollToTopButton.classList.toggle(
             'hidden',
-            window.scrollY <= 300 || isFooterVisible,
+            window.scrollY <= 300 || isFooterVisible
           )
         })
       }
