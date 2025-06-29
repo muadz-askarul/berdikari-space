@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { NAV_LINKS } from '@/consts'
-import { Menu } from 'lucide-react'
+import { Menu, XIcon } from 'lucide-react'
+import { navigate } from 'astro:transitions/client'
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -28,37 +23,36 @@ const MobileMenu = () => {
   }, [])
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={(val) => setIsOpen(val)}>
-      <DropdownMenuTrigger
-        asChild
-        onClick={() => {
-          setIsOpen((val) => !val)
-        }}
+    <>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="size-8 sm:hidden"
+        title="Menu"
+        onClick={() => setIsOpen(!isOpen)}
       >
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8 sm:hidden"
-          title="Menu"
-        >
-          <Menu className="size-5" />
-          <span className="sr-only">Toggle menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-background">
-        {NAV_LINKS.map((item) => (
-          <DropdownMenuItem key={item.href} asChild>
-            <a
-              href={item.href}
-              className="w-full text-lg font-medium capitalize"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.label}
-            </a>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+        {isOpen ? <XIcon className="size-5" /> : <Menu className="size-5" />}
+        <span className="sr-only">Open menu</span>
+      </Button>
+      {isOpen && (
+        <div className="absolute top-[60px] left-0 z-50 flex h-screen w-screen bg-white duration-300 ease-in-out">
+          <div className="relative h-full w-full flex-col items-center justify-center pt-6">
+            {NAV_LINKS.map((item) => (
+              <div className="flex flex-col">
+                <Button
+                  variant="link"
+                  className="justify-start rounded-none px-8 text-red-400/90 capitalize transition-colors"
+                  onClick={() => navigate(item.href)}
+                >
+                  {item.label}
+                </Button>
+                <div className="border-b-[1.5px] border-red-400/90"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
