@@ -60,10 +60,10 @@ const carouselData = [...featuredNews, ...featuredBlog]
     <h2 class="text-2xl font-medium">
       <Link href="/news"> Tajuk Berdikari </Link>
     </h2>
-    <ul class="flex flex-col gap-y-4">
+    <ul class="flex flex-col">
       {
         news.map((post) => (
-          <li>
+          <li class="py-2">
             <BlogCard entry={post} />
           </li>
         ))
@@ -85,10 +85,10 @@ const carouselData = [...featuredNews, ...featuredBlog]
     <h2 class="text-2xl font-medium">
       <Link href="/blog">Cerita Dari Komunitas</Link>
     </h2>
-    <ul class="flex flex-col gap-y-4">
+    <ul class="flex flex-col">
       {
         blog.map((post) => (
-          <li>
+          <li class="py-2">
             <BlogCard entry={post} />
           </li>
         ))
