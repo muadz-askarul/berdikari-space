@@ -63,7 +63,7 @@ const carouselData = [...featuredNews, ...featuredBlog]
     <ul class="flex flex-col">
       {
         news.map((post) => (
-          <li class="py-2">
+          <li>
             <BlogCard entry={post} />
           </li>
         ))
@@ -88,7 +88,7 @@ const carouselData = [...featuredNews, ...featuredBlog]
     <ul class="flex flex-col">
       {
         blog.map((post) => (
-          <li class="py-2">
+          <li>
             <BlogCard entry={post} />
           </li>
         ))
