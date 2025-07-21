@@ -26,7 +26,7 @@ export type NavLink = {
 
 export type SocialLink = {
   href: string
-  label: keyof typeof Icons
+  label: keyof typeof Icons | string
 }
 
-export type IconMap = Partial<Record<keyof typeof Icons, string>>
+export type IconMap = Partial<Record<keyof typeof Icons | string, string>>

@@ -2,12 +2,11 @@ import type { IconMap, SocialLink, Site, NavLink } from '@/types/types'
 import type { Carousel } from '@/types/carousel'
 
 export const SITE: Site = {
-  title: 'astro-erudite',
-  description:
-    'astro-erudite is a opinionated, unstyled blogging template—built with Astro, Tailwind, and shadcn/ui.',
-  href: 'https://astro-erudite.vercel.app',
-  author: 'jktrn',
-  locale: 'en-US',
+  title: 'Berdikari Space',
+  description: 'Berdikari Space adalah ',
+  href: 'https://berdikari-space.vercel.app',
+  author: 'muadz_askarul',
+  locale: 'id-ID',
   featuredPostCount: 5,
   postsPerPage: 10,
 }
@@ -33,17 +32,17 @@ export const NAV_LINKS: NavLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: '',
+    href: 'https://www.instagram.com/berdikarikopi/',
     label: 'Instagram',
   },
-  {
-    href: '',
-    label: 'Twitter',
-  },
-  {
-    href: '',
-    label: 'Mail',
-  },
+  // {
+  //   href: '',
+  //   label: 'xComIcon',
+  // },
+  // {
+  //   href: '',
+  //   label: 'Mail',
+  // },
 ]
 
 export const ICON_MAP: IconMap = {
@@ -53,6 +52,7 @@ export const ICON_MAP: IconMap = {
   Mail: 'lucide:mail',
   Instagram: 'lucide:instagram',
   Rss: 'lucide:rss',
+  xComIcon: 'xComIcon',
 }
 
 export const CarouselData: Carousel[] = [

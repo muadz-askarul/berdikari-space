@@ -5,6 +5,9 @@ import { ICON_MAP } from '@/consts'
 import { cn } from '@/lib/utils'
 import type { SocialLink } from '@/types/types'
 import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+import { default as xComIconDark } from '../../public/x.com-white.svg'
+import { default as xComIcon } from '../../public/x.com.svg'
 
 interface Props {
   links: SocialLink[]
@@ -19,7 +22,7 @@ const { links, position } = Astro.props
   role="list"
 >
   {
-    links.map(({ href, label }) => (
+    links.map(({ href, label }: { href: string; label: string }) => (
       <li>
         <Link
           href={href}
@@ -31,13 +34,32 @@ const { links, position } = Astro.props
           )}
           external
         >
-          <Icon
-            name={
-              ICON_MAP[label as keyof typeof ICON_MAP] ||
-              'lucide:message-circle-question'
-            }
-            class="size-4"
-          />
+          {label === 'xComIcon' ? (
+            <>
+              <Image
+                src={xComIcon}
+                alt="xComIcon"
+                width={20}
+                height={20}
+                class="size-4 dark:hidden"
+              />
+              <Image
+                src={xComIconDark}
+                alt="xComIcon"
+                width={20}
+                height={20}
+                class="hidden size-4 dark:block"
+              />
+            </>
+          ) : (
+            <Icon
+              name={
+                ICON_MAP[label as keyof typeof ICON_MAP] ||
+                'lucide:message-circle-question'
+              }
+              class="size-4"
+            />
+          )}
         </Link>
       </li>
     ))
