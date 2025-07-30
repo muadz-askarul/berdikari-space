@@ -9,13 +9,13 @@ import { getRecentNews, getRecentPosts } from '@/lib/data-utils'
 import { Image } from 'astro:assets'
 
 const news = await getRecentNews(SITE.featuredPostCount)
-const featuredNews = news.splice(0, 5).map((item) => ({
+const featuredNews = news.splice(0, 2).map((item) => ({
   ...item.data,
   href: `/news/${item.id}`,
 }))
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
-const featuredBlog = blog.splice(0, 5).map((item) => ({
+const featuredBlog = blog.splice(0, 2).map((item) => ({
   ...item.data,
   href: `/blog/${item.id}`,
 }))
