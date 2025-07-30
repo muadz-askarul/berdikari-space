@@ -9,13 +9,13 @@ import { getRecentNews, getRecentPosts } from '@/lib/data-utils'
 import { Image } from 'astro:assets'
 
 const news = await getRecentNews(SITE.featuredPostCount)
-const featuredNews = news.splice(0, 2).map((item) => ({
+const featuredNews = news.splice(0, 5).map((item) => ({
   ...item.data,
   href: `/news/${item.id}`,
 }))
 
 const blog = await getRecentPosts(SITE.featuredPostCount)
-const featuredBlog = blog.splice(0, 2).map((item) => ({
+const featuredBlog = blog.splice(0, 5).map((item) => ({
   ...item.data,
   href: `/blog/${item.id}`,
 }))
@@ -29,7 +29,7 @@ const carouselData = [...featuredNews, ...featuredBlog]
     <Carousel items={carouselData} client:visible>
       {
         carouselData.map(({ title, description, image }: any) => (
-          <div class="carousel__slide__number bg-background relative">
+          <div class="carousel__slide__number bg-neutral-200 dark:bg-neutral-900 relative">
             <div class="absolute top-0 left-0 flex h-full w-full flex-col items-start justify-end bg-gradient-to-t from-black to-transparent to-70% px-4 py-2 select-none">
               <h4
                 class="mb-2 text-sm text-white md:text-xl"
