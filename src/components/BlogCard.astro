@@ -29,7 +29,7 @@ const authors = await parseAuthors(entry.data.authors ?? [])
     {
       entry.data.image && (
         <div class="flex max-w-[40%] items-center md:max-w-3xs">
-          <div class="h-full flex items-center justify-center">
+          <div class="h-full flex items-center justify-center overflow-clip">
             <Image
               src={entry.data.image}
               alt={entry.data.title}
