@@ -10,6 +10,7 @@ import TOCSidebar from '@/components/TOCSidebar.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
+import { getAdjacentEventPosts, getEventParentPost, getAllEventsPostsAndSubposts } from '@/lib/content/events.data-utils'
 import {
   getAdjacentPosts,
   getAllPostsAndSubposts,
@@ -29,7 +30,7 @@ import { Image } from 'astro:assets'
 import { render } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = await getAllPostsAndSubposts()
+  const posts = await getAllEventsPostsAndSubposts()
   return posts.map((post) => ({
     params: { id: post.id },
     props: post,
@@ -39,25 +40,36 @@ export async function getStaticPaths() {
 const post = Astro.props
 const currentPostId = Astro.params.id
 
-const { Content, headings } = await render(post)
-const authors = await parseAuthors(post.data.authors ?? [])
+
+// const { Content, headings } = await render(post)
+// const authors = await parseAuthors(post.data.authors ?? [])
 
 const isCurrentSubpost = isSubpost(currentPostId)
-const navigation = await getAdjacentPosts(currentPostId)
+const navigation = await getAdjacentEventPosts(currentPostId)
 
-const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
+console.log(`//=========isCurrentSubpost===========//`, isCurrentSubpost);
+console.log(`//=========navigation===========//`, navigation);
+
+const parentPost = isCurrentSubpost ? await getEventParentPost(currentPostId) : null
+console.log(`//=========parentPost===========//`, parentPost);
 
 const hasChildPosts = await hasSubposts(currentPostId)
+console.log(`//=========hasChildPosts===========//`, hasChildPosts);
 const subpostCount = !isCurrentSubpost
-  ? await getSubpostCount(currentPostId)
-  : 0
+? await getSubpostCount(currentPostId)
+: 0
+console.log(`//========= subpostCount ===========//`, subpostCount);
+
 const postReadingTime = await getPostReadingTime(currentPostId)
+console.log(`//========= postReadingTime ===========//`, postReadingTime);
 const combinedReadingTime =
-  hasChildPosts && !isCurrentSubpost
-    ? await getCombinedReadingTime(currentPostId)
-    : null
+hasChildPosts && !isCurrentSubpost
+? await getCombinedReadingTime(currentPostId)
+: null
+console.log(`//========= combinedReadingTime ===========//`, combinedReadingTime);
 
 const tocSections = await getTOCSections(currentPostId)
+console.log(`//========= tocSections ===========//`, tocSections);
 
 
 ---

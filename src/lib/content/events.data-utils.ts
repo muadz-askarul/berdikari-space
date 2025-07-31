@@ -18,8 +18,6 @@ export const event = defineCollection({
         }),
 })
 
-
-
 export async function getAllEvents(): Promise<CollectionEntry<'event'>[]> {
     return getCollection('event');
 }
@@ -43,6 +41,15 @@ export async function getAllEventPosts(): Promise<CollectionEntry<'event'>[]> {
     const posts = await getCollection('event')
     return posts
         .filter((post) => !post.data.draft && !isSubpost(post.id))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+}
+
+export const getAllEventsPostsAndSubposts = async (): Promise<
+    CollectionEntry<'event'>[]
+> => {
+    const posts = await getCollection('event')
+    return posts
+        .filter((post) => !post.data.draft)
         .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
@@ -109,4 +116,38 @@ export const getAdjacentEventPosts = async (
                 : null,
         parent: null,
     }
+}
+
+export const getEventParentPost = async (
+    subpostId: string,
+): Promise<CollectionEntry<'event'> | null> => {
+    if (!isSubpost(subpostId)) {
+        return null
+    }
+
+    const parentId = getParentId(subpostId)
+    const allPosts = await getAllEventPosts()
+    return allPosts.find((post) => post.id === parentId) || null
+}
+
+
+export const getEventSubpostsForParent = async (
+    parentId: string,
+): Promise<CollectionEntry<'event'>[]> => {
+    const posts = await getCollection('event')
+    return posts
+        .filter(
+            (post) =>
+                !post.data.draft &&
+                isSubpost(post.id) &&
+                getParentId(post.id) === parentId,
+        )
+        .sort((a, b) => {
+            const dateDiff = a.data.date.valueOf() - b.data.date.valueOf()
+            if (dateDiff !== 0) return dateDiff
+
+            const orderA = a.data.order ?? 0
+            const orderB = b.data.order ?? 0
+            return orderA - orderB
+        })
 }
