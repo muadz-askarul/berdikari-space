@@ -38,11 +38,13 @@ export async function getStaticPaths() {
 
 const post = Astro.props
 const currentPostId = Astro.params.id
+
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
 
 const isCurrentSubpost = isSubpost(currentPostId)
 const navigation = await getAdjacentPosts(currentPostId)
+
 const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
 
 const hasChildPosts = await hasSubposts(currentPostId)
@@ -56,9 +58,10 @@ const combinedReadingTime =
     : null
 
 const tocSections = await getTOCSections(currentPostId)
----
 
-<Layout>
+
+---
+<!-- <Layout>
   <PostHead slot="head" post={post} />
   {
     (hasChildPosts || isCurrentSubpost) && (
@@ -281,4 +284,4 @@ const tocSections = await getTOCSections(currentPostId)
       }
     })
   </script>
-</Layout>
+</Layout> -->

@@ -5,7 +5,11 @@ import PageHead from '@/components/PageHead.astro'
 import PaginationComponent from '@/components/ui/pagination'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getAllEvents, groupEventsByYear } from '@/lib/data-utils'
+import {
+  getAllEvents,
+  groupEventsByYear,
+} from '@/lib/content/events.data-utils'
+import { isSubpost } from '@/lib/data-utils'
 import type { PaginateFunction } from 'astro'
 
 export async function getStaticPaths({
@@ -18,8 +22,6 @@ export async function getStaticPaths({
 }
 
 const { page } = Astro.props
-
-// const GetEventsPage =
 
 const eventsByYear = groupEventsByYear(page.data)
 
@@ -43,10 +45,10 @@ const years = Object.keys(eventsByYear).sort(
         <section class="flex flex-col gap-y-4">
           <div class="font-medium">{year}</div>
           <ul class="flex flex-col gap-4">
-            {eventsByYear[year].map((post) => (
-              <li>
-                <BlogCard entry={post} />
-              </li>
+            {eventsByYear[year].filter((post) => !isSubpost(post.id)).map((post) => (
+                <li>
+                  <BlogCard entry={post} />
+                </li>
             ))}
           </ul>
         </section>
@@ -57,7 +59,7 @@ const years = Object.keys(eventsByYear).sort(
   <PaginationComponent
     currentPage={page.currentPage}
     totalPages={page.lastPage}
-    baseUrl="/blog/"
+    baseUrl="/event/"
     client:load
   />
 </Layout>

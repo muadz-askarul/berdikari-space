@@ -1,23 +1,9 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
+import { event } from './lib/content/events.data-utils'
 
 const blog = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-    schema: ({ image }) =>
-        z.object({
-            title: z.string(),
-            description: z.string(),
-            date: z.coerce.date(),
-            order: z.number().optional(),
-            image: image().optional(),
-            tags: z.array(z.string()).optional(),
-            authors: z.array(z.string()).optional(),
-            draft: z.boolean().optional(),
-        }),
-})
-
-const event = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/event' }),
     schema: ({ image }) =>
         z.object({
             title: z.string(),

@@ -6,19 +6,6 @@ export async function getAllEvents(): Promise<CollectionEntry<'event'>[]> {
     return getCollection('event');
 }
 
-export function groupEventsByYear(
-    posts: CollectionEntry<'event'>[],
-): Record<string, CollectionEntry<'event'>[]> {
-    return posts.reduce(
-        (acc: Record<string, CollectionEntry<'event'>[]>, post) => {
-            const year = post.data.date.getFullYear().toString()
-                ; (acc[year] ??= []).push(post)
-            return acc
-        },
-        {},
-    )
-}
-
 export async function getAllNews(): Promise<CollectionEntry<'news'>[]> {
     return getCollection('news');
 }
