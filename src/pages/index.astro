@@ -5,22 +5,24 @@ import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getRecentNews, getRecentPosts } from '@/lib/data-utils'
+// import { getRecentPosts } from '@/lib/data-utils'
+// import { getRecentNews } from '@/lib/content/news.data-utils'
 import { Image } from 'astro:assets'
 
-const news = await getRecentNews(SITE.featuredPostCount)
-const featuredNews = news.splice(0, 2).map((item) => ({
-  ...item.data,
-  href: `/news/${item.id}`,
-}))
+// const news = await getRecentNews(SITE.featuredPostCount)
+// const featuredNews = news.splice(0, 2).map((item) => ({
+//   ...item.data,
+//   href: `/news/${item.id}`,
+// }))
 
-const blog = await getRecentPosts(SITE.featuredPostCount)
-const featuredBlog = blog.splice(0, 2).map((item) => ({
-  ...item.data,
-  href: `/blog/${item.id}`,
-}))
+// const blog = await getRecentPosts(SITE.featuredPostCount, 'blog')
+// const featuredBlog = blog.splice(0, 2).map((item) => ({
+//   ...item.data,
+//   href: `/blog/${item.id}`,
+// }))
 
-const carouselData = [...featuredNews, ...featuredBlog]
+// const carouselData = [...featuredNews, ...featuredBlog]
+const carouselData:any = []
 ---
 
 <Layout class="max-w-3xl">
@@ -61,13 +63,13 @@ const carouselData = [...featuredNews, ...featuredBlog]
       <Link href="/news"> Tajuk Berdikari </Link>
     </h2>
     <ul class="flex flex-col">
-      {
+      <!-- {
         news.map((post) => (
           <li>
             <BlogCard entry={post} />
           </li>
         ))
-      }
+      } -->
     </ul>
     <!-- <div class="flex justify-center">
       <Link
@@ -86,13 +88,13 @@ const carouselData = [...featuredNews, ...featuredBlog]
       <Link href="/blog">Cerita Dari Komunitas</Link>
     </h2>
     <ul class="flex flex-col">
-      {
+      <!-- {
         blog.map((post) => (
           <li>
             <BlogCard entry={post} />
           </li>
         ))
-      }
+      } -->
     </ul>
     <!-- <div class="flex justify-center">
       <Link

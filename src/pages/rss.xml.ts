@@ -5,7 +5,7 @@ import { getAllPosts } from '@/lib/data-utils'
 
 export async function GET(context: APIContext) {
   try {
-    const posts = await getAllPosts()
+    const posts = await getAllPosts('blog')
 
     return rss({
       title: SITE.title,

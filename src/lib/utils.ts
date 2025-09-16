@@ -1,5 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { defineCollection, z, type ContentEntryMap, type DataEntryMap } from 'astro:content'
+import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { isSubpost, getParentId } from './data-utils'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -35,3 +38,12 @@ export function getHeadingMargin(depth: number): string {
   }
   return margins[depth] || ''
 }
+
+// Yang berhubungan dengan collection secara generic, taruh di data-utils.ts
+// Function yang specific terhadap suatu collection, taruh di [collection_name].data-utils.ts
+// export async function getAllPosts(collection: keyof Pick<DataEntryMap, 'blog' | 'event' | 'news'>, withSubPost = false) {
+//   const posts = await getCollection(collection)
+//   return posts
+//       .filter((post) => !post.data.draft && withSubPost && isSubpost(post.id))
+//       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+// }

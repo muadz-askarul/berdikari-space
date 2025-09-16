@@ -13,7 +13,7 @@ export async function getStaticPaths({
 }: {
   paginate: PaginateFunction
 }) {
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllPosts('blog')
   return paginate(allPosts, { pageSize: SITE.postsPerPage })
 }
 

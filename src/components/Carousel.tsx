@@ -3,7 +3,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { NextButton, PrevButton, usePrevNextButtons } from './CarouselControl'
 import type { Carousel as CarouselType } from '@/types/carousel'
-import { navigate } from 'astro:transitions/client'
+// import { navigate } from 'astro:transitions/client'
 // import { ImageOverlay } from './image-overlay'
 
 export const Carousel = (props: {
@@ -88,7 +88,7 @@ export const Carousel = (props: {
                 onClick={() => {
                   //   setIsOpen(true)
                   //   setselectedItem(idx)
-                  navigate(items[idx].href)
+                //   navigate(items[idx].href)
                 }}
               ></div>
             ))}

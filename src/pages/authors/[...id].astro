@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { author } = Astro.props
-const authorPosts = await getPostsByAuthor(author.id)
+const authorPosts = await getPostsByAuthor(author.id, 'blog')
 ---
 
 <Layout class="max-w-3xl">

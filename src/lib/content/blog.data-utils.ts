@@ -1,8 +1,8 @@
-import { glob } from 'astro/loaders'
-import { defineCollection, z } from 'astro:content'
+import { defineCollection, z } from "astro:content"
+import { glob } from "astro/loaders"
 
-export const event = defineCollection({
-    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/event' }),
+export const blog = defineCollection({
+    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
     schema: ({ image }) =>
         z.object({
             title: z.string(),
@@ -15,4 +15,3 @@ export const event = defineCollection({
             draft: z.boolean().optional(),
         }),
 })
-

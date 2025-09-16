@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 import {
   getAdjacentPosts,
-  getAllNews,
+  getAll,
   getCombinedReadingTime,
   getPostReadingTime,
   getTOCSections,
@@ -19,10 +19,11 @@ import {
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import Image from 'astro/components/Image.astro'
+import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = await getAllNews()
+  const posts = await getAll('news')
   console.log(posts)
 
   return posts.map((post) => ({
@@ -35,10 +36,10 @@ const post = Astro.props
 const post_id = Astro.props.id
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
-const navigation = await getAdjacentPosts(post_id)
-const postReadingTime = await getPostReadingTime(post_id)
-const combinedReadingTime = (await getCombinedReadingTime(post_id)) ?? null
-const tocSections = await getTOCSections(post_id)
+const navigation = await getAdjacentPosts(post_id, 'news')
+const postReadingTime = await getPostReadingTime(post_id, 'news')
+const combinedReadingTime = (await getCombinedReadingTime(post_id, 'news')) ?? null
+const tocSections = await getTOCSections(post_id, 'news')
 ---
 
 <Layout>

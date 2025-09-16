@@ -5,7 +5,9 @@ import PageHead from '@/components/PageHead.astro'
 import PaginationComponent from '@/components/ui/pagination'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getAllNews, groupNewsByYear } from '@/lib/data-utils'
+import { groupCollectionByYear } from '@/lib/data-utils'
+import { getAll } from '@/lib/data-utils'
+
 import type { PaginateFunction } from 'astro'
 
 export async function getStaticPaths({
@@ -13,7 +15,7 @@ export async function getStaticPaths({
 }: {
   paginate: PaginateFunction
 }) {
-  const allEvents = await getAllNews()
+  const allEvents = await getAll('news')
   return paginate(allEvents, { pageSize: SITE.postsPerPage })
 }
 
@@ -21,7 +23,7 @@ const { page } = Astro.props
 
 // const GetEventsPage =
 
-const eventsByYear = groupNewsByYear(page.data)
+const eventsByYear = groupCollectionByYear(page.data)
 
 const years = Object.keys(eventsByYear).sort(
   (a, b) => parseInt(b) - parseInt(a),
