@@ -1,0 +1,19 @@
+---
+import PhotoGallery from '@/components/PhotoGallery.astro'
+import Layout from '@/layouts/Layout.astro'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  const media = await getCollection('media')
+  return media.map((medium) => ({
+    params: { id: medium.id },
+    props: medium,
+  }))
+}
+
+const medium = Astro.props
+---
+
+<Layout useFlex={false}>
+  <PhotoGallery images={medium.data.images} />
+</Layout>

@@ -1,0 +1,102 @@
+---
+import 'glightbox/dist/css/glightbox.css'
+import '../styles/glight-custom.css'
+
+const { images } = Astro.props
+---
+
+<style lang="scss">
+  .photo-container {
+    padding: 0.25em;
+  }
+
+  .image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+  }
+
+  .image-item {
+    height: 40vh;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  img:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+  }
+
+  .image-item:last-child {
+    flex-grow: 10;
+  }
+
+  img {
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+  }
+
+  @media (max-aspect-ratio: 1/1) {
+    .image-item {
+      height: 30vh;
+    }
+  }
+
+  @media (max-height: 480px) {
+    .image-item {
+      height: 80vh;
+    }
+  }
+
+  @media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+    .image-grid {
+      flex-direction: row;
+    }
+
+    .image-item {
+      height: auto;
+      width: 100%;
+    }
+    img {
+      width: 100%;
+      max-height: 75vh;
+      min-width: 0;
+    }
+  }
+</style>
+
+<div class="photo-container">
+  <div class="image-grid">
+    {
+      images.map((image: any) => {
+        return (
+          <div class="image-item">
+            <a
+              href={image.src}
+              class="photo-item glightbox transition-transform hover:z-10 hover:scale-[1.02]"
+              data-gallery="gallery1"
+              data-type="image"
+              data-glightbox={image.title ? `title: ${image.title}` : undefined}
+            >
+              <img src={image.src} alt={image.title} loading="lazy" />
+            </a>
+          </div>
+        )
+      })
+    }
+  </div>
+</div>
+
+<script>
+  import GLightbox from 'glightbox';
+  GLightbox({
+		selector: '.glightbox',
+		openEffect: 'zoom',
+		closeEffect: 'fade',
+		width: 'auto',
+		height: 'auto',
+	});
+</script>

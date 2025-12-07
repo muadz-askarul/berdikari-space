@@ -25,6 +25,10 @@ export const NAV_LINKS: NavLink[] = [
     label: 'Events',
   },
   {
+    href: '/media',
+    label: 'Media',
+  },
+  {
     href: '/about',
     label: 'Tentang Kami',
   },

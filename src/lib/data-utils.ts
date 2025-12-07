@@ -200,6 +200,26 @@ export function groupPostsByYear(
     )
 }
 
+export async function getAllMedia(): Promise<CollectionEntry<'media'>[]> {
+    const media = await getCollection('media')
+    return media
+        .filter((medium) => !medium.data.draft)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+}
+
+export function groupMediaByYear(
+    posts: CollectionEntry<'media'>[],
+): Record<string, CollectionEntry<'media'>[]> {
+    return posts.reduce(
+        (acc: Record<string, CollectionEntry<'media'>[]>, post) => {
+            const year = post.data.date.getFullYear().toString()
+                ; (acc[year] ??= []).push(post)
+            return acc
+        },
+        {},
+    )
+}
+
 export async function hasSubposts(postId: string): Promise<boolean> {
     const subposts = await getSubpostsForParent(postId)
     return subposts.length > 0
