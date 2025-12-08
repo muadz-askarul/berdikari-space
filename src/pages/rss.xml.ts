@@ -5,13 +5,15 @@ import { getAllPosts } from '@/lib/data-utils'
 
 export async function GET(context: APIContext) {
   try {
-    const posts = await getAllPosts()
+    const blogs = await getAllPosts('blog', false)
+    const news = await getAllPosts('news', false)
+    const events = await getAllPosts('event', false)
 
     return rss({
       title: SITE.title,
       description: SITE.description,
       site: context.site ?? SITE.href,
-      items: posts.map((post) => ({
+      items: [...blogs, ...news, ...events].map((post) => ({
         title: post.data.title,
         description: post.data.description,
         pubDate: post.data.date,

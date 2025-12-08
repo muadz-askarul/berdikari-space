@@ -5,11 +5,7 @@ import PageHead from '@/components/PageHead.astro'
 import PaginationComponent from '@/components/ui/pagination'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import {
-  getAllEvents,
-  groupEventsByYear,
-} from '@/lib/content/events.data-utils'
-import { isSubpost } from '@/lib/data-utils'
+import { getAllEvents, groupPostsByYear, isSubpost } from '@/lib/data-utils'
 import type { PaginateFunction } from 'astro'
 
 export async function getStaticPaths({
@@ -17,14 +13,13 @@ export async function getStaticPaths({
 }: {
   paginate: PaginateFunction
 }) {
-  const allEvents = await getAllEvents()
-  return paginate(allEvents, { pageSize: SITE.postsPerPage })
+  const allPosts = await getAllEvents()
+  return paginate(allPosts, { pageSize: SITE.postsPerPage })
 }
 
 const { page } = Astro.props
 
-const eventsByYear = groupEventsByYear(page.data)
-
+const eventsByYear = groupPostsByYear(page.data)
 const years = Object.keys(eventsByYear).sort(
   (a, b) => parseInt(b) - parseInt(a),
 )

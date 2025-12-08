@@ -10,13 +10,12 @@ import TOCSidebar from '@/components/TOCSidebar.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
-import { getAdjacentEventPosts, getEventParentPost, getAllEventsPostsAndSubposts } from '@/lib/content/events.data-utils'
 import {
-  getAdjacentPosts,
-  getAllPostsAndSubposts,
+  getAdjacentEvents,
+  getAllEvents,
   getCombinedReadingTime,
+  getParentBlog,
   getParentId,
-  getParentPost,
   getPostReadingTime,
   getSubpostCount,
   getTOCSections,
@@ -27,59 +26,48 @@ import {
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = await getAllEventsPostsAndSubposts()
+  const posts = await getAllEvents(true)
+
   return posts.map((post) => ({
     params: { id: post.id },
     props: post,
   }))
 }
 
-const post = Astro.props
+const post = Astro.props as CollectionEntry<'blog'>
 const currentPostId = Astro.params.id
-
-
-// const { Content, headings } = await render(post)
-// const authors = await parseAuthors(post.data.authors ?? [])
+const { Content, headings } = await render(post)
+const authors = await parseAuthors(post.data.authors ?? [])
 
 const isCurrentSubpost = isSubpost(currentPostId)
-const navigation = await getAdjacentEventPosts(currentPostId)
+const navigation = await getAdjacentEvents(currentPostId)
+const parentPost = isCurrentSubpost ? await getParentBlog(currentPostId) : null
 
-console.log(`//=========isCurrentSubpost===========//`, isCurrentSubpost);
-console.log(`//=========navigation===========//`, navigation);
-
-const parentPost = isCurrentSubpost ? await getEventParentPost(currentPostId) : null
-console.log(`//=========parentPost===========//`, parentPost);
-
-const hasChildPosts = await hasSubposts(currentPostId)
-console.log(`//=========hasChildPosts===========//`, hasChildPosts);
+const hasChildPosts = await hasSubposts(currentPostId, 'event')
 const subpostCount = !isCurrentSubpost
-? await getSubpostCount(currentPostId)
-: 0
-console.log(`//========= subpostCount ===========//`, subpostCount);
-
-const postReadingTime = await getPostReadingTime(currentPostId)
-console.log(`//========= postReadingTime ===========//`, postReadingTime);
+  ? await getSubpostCount(currentPostId, 'event')
+  : 0
+const postReadingTime = await getPostReadingTime(currentPostId, 'event')
 const combinedReadingTime =
-hasChildPosts && !isCurrentSubpost
-? await getCombinedReadingTime(currentPostId)
-: null
-console.log(`//========= combinedReadingTime ===========//`, combinedReadingTime);
+  hasChildPosts && !isCurrentSubpost
+    ? await getCombinedReadingTime(currentPostId, 'event')
+    : null
 
-const tocSections = await getTOCSections(currentPostId)
-console.log(`//========= tocSections ===========//`, tocSections);
-
-
+const tocSections = await getTOCSections(currentPostId, 'event')
 ---
-<!-- <Layout>
+
+<Layout>
   <PostHead slot="head" post={post} />
   {
     (hasChildPosts || isCurrentSubpost) && (
       <SubpostsHeader
         slot="subposts-navigation"
         parentId={isCurrentSubpost ? getParentId(currentPostId) : currentPostId}
+        collection='event'
       />
     )
   }
@@ -98,23 +86,27 @@ console.log(`//========= tocSections ===========//`, tocSections);
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/event', label: 'Event', icon: 'lucide:library-big' },
+          {
+            href: '/blog',
+            label: 'Cerita Dari Komunitas',
+            icon: 'lucide:library-big',
+          },
           ...(isCurrentSubpost && parentPost
             ? [
                 {
-                  href: `/event/${parentPost.id}`,
+                  href: `/blog/${parentPost.id}`,
                   label: parentPost.data.title,
                   icon: 'lucide:book-open',
                 },
                 {
-                  href: `/event/${currentPostId}`,
+                  href: `/blog/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:file-text',
                 },
               ]
             : [
                 {
-                  href: `/event/${currentPostId}`,
+                  href: `/blog/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:book-open-text',
                 },
@@ -199,14 +191,14 @@ console.log(`//========= tocSections ===========//`, tocSections);
             </span>
           </div>
 
-          {
+          <!-- {
             subpostCount > 0 && (
               <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 <Icon name="lucide:file-text" class="size-3" />
                 {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
               </div>
             )
-          }
+          } -->
         </div>
         <div class="flex flex-wrap justify-center gap-2">
           {
@@ -242,7 +234,7 @@ console.log(`//========= tocSections ===========//`, tocSections);
       <Content />
     </article>
 
-    {
+    <!-- {
       (hasChildPosts || isCurrentSubpost) && (
         <SubpostsSidebar
           parentId={
@@ -251,7 +243,7 @@ console.log(`//========= tocSections ===========//`, tocSections);
           className="w-64"
         />
       )
-    }
+    } -->
 
     <PostNavigation
       newerPost={navigation.newer}
@@ -290,10 +282,10 @@ console.log(`//========= tocSections ===========//`, tocSections);
 
           scrollToTopButton.classList.toggle(
             'hidden',
-            window.scrollY <= 300 || isFooterVisible,
+            window.scrollY <= 300 || isFooterVisible
           )
         })
       }
     })
   </script>
-</Layout> -->
+</Layout>

@@ -9,33 +9,43 @@ import {
   getPostReadingTime,
   getSubpostsForParent,
   isSubpost,
+  type PostCollectionType,
 } from '@/lib/data-utils'
 import { Icon } from 'astro-icon/components'
 
-const { parentId } = Astro.props
+interface Props {
+  parentId: string
+  collection: PostCollectionType
+}
+
+const { parentId, collection } = Astro.props
 const currentPostId = Astro.params.id as string
 const isCurrentSubpost = isSubpost(currentPostId)
 const rootParentId = isCurrentSubpost ? getParentId(currentPostId) : parentId
 
-const currentPost = !isCurrentSubpost ? await getPostById(currentPostId) : null
-const subposts = await getSubpostsForParent(rootParentId)
-const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
+const currentPost = !isCurrentSubpost
+  ? await getPostById(currentPostId, collection)
+  : null
+const subposts = await getSubpostsForParent(rootParentId, collection)
+const parentPost = isCurrentSubpost
+  ? await getParentPost(currentPostId, collection)
+  : null
 
 const activePost = parentPost || currentPost
 const isActivePost = activePost?.id === currentPostId
 
 const activePostReadingTime = activePost
-  ? await getPostReadingTime(activePost.id)
+  ? await getPostReadingTime(activePost.id, collection)
   : null
 const activePostCombinedReadingTime =
   activePost && subposts.length > 0
-    ? await getCombinedReadingTime(activePost.id)
+    ? await getCombinedReadingTime(activePost.id, collection)
     : null
 const subpostsWithReadingTime = await Promise.all(
   subposts.map(async (subpost) => ({
     ...subpost,
-    readingTime: await getPostReadingTime(subpost.id),
-  })),
+    readingTime: await getPostReadingTime(subpost.id, collection),
+  }))
 )
 ---
 
@@ -152,7 +162,7 @@ const subpostsWithReadingTime = await Promise.all(
                       </span>
                     </div>
                   </Link>
-                ),
+                )
               )}
             </li>
           )
@@ -194,7 +204,7 @@ const subpostsWithReadingTime = await Promise.all(
       if (!state.scrollArea) return
 
       const activeItem = state.scrollArea.querySelector(
-        '.subposts-sidebar-active-item',
+        '.subposts-sidebar-active-item'
       )
       if (!activeItem) {
         return
@@ -210,8 +220,8 @@ const subpostsWithReadingTime = await Promise.all(
         0,
         Math.min(
           currentItemTop - (areaHeight - itemHeight) / 2,
-          state.scrollArea.scrollHeight - state.scrollArea.clientHeight,
-        ),
+          state.scrollArea.scrollHeight - state.scrollArea.clientHeight
+        )
       )
 
       state.scrollArea.scrollTop = targetScroll
@@ -223,21 +233,21 @@ const subpostsWithReadingTime = await Promise.all(
       state.reset()
 
       const sidebarContainer = document.getElementById(
-        'subposts-sidebar-container',
+        'subposts-sidebar-container'
       )
       if (sidebarContainer) {
         state.scrollArea = sidebarContainer.querySelector(
-          '[data-radix-scroll-area-viewport]',
+          '[data-radix-scroll-area-viewport]'
         )
         state.sidebarScrollArea = sidebarContainer.querySelector(
-          '[data-subposts-sidebar-scroll]',
+          '[data-subposts-sidebar-scroll]'
         )
 
         if (state.scrollArea) {
           state.scrollArea.addEventListener(
             'scroll',
             SidebarScrollMask.update,
-            { passive: true },
+            { passive: true }
           )
         }
 
@@ -262,6 +272,6 @@ const subpostsWithReadingTime = await Promise.all(
     SidebarController.init()
   })
   document.addEventListener('astro:before-swap', () =>
-    SidebarController.cleanup(),
+    SidebarController.cleanup()
   )
 </script>

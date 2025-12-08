@@ -1,35 +1,31 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
-import { event } from './lib/content/events.data-utils'
+
+const postSchema = ({ image }: { image: any }) =>
+    z.object({
+        title: z.string(),
+        description: z.string(),
+        date: z.coerce.date(),
+        order: z.number().optional(),
+        image: image().optional(),
+        tags: z.array(z.string()).optional(),
+        authors: z.array(z.string()).optional(),
+        draft: z.boolean().optional(),
+    });
 
 const blog = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-    schema: ({ image }) =>
-        z.object({
-            title: z.string(),
-            description: z.string(),
-            date: z.coerce.date(),
-            order: z.number().optional(),
-            image: image().optional(),
-            tags: z.array(z.string()).optional(),
-            authors: z.array(z.string()).optional(),
-            draft: z.boolean().optional(),
-        }),
+    schema: postSchema,
 })
 
 const news = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/news' }),
-    schema: ({ image }) =>
-        z.object({
-            title: z.string(),
-            description: z.string(),
-            date: z.coerce.date(),
-            order: z.number().optional(),
-            image: image().optional(),
-            tags: z.array(z.string()).optional(),
-            authors: z.array(z.string()).optional(),
-            draft: z.boolean().optional(),
-        }),
+    schema: postSchema,
+})
+
+const event = defineCollection({
+    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/event' }),
+    schema: postSchema,
 })
 
 const authors = defineCollection({
@@ -64,7 +60,7 @@ const projects = defineCollection({
 
 const media = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/media' }),
-    schema: ({ image }) =>
+    schema: () =>
         z.object({
             title: z.string(),
             description: z.string(),
