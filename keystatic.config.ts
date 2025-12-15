@@ -28,11 +28,12 @@ const postSchema = {
 
 export default config({
   storage: {
-    kind: 'github',
-    repo: {
-      owner: 'muadz-askarul',
-      name: 'berdikari-space',
-    },
+    // kind: 'github',
+    // repo: {
+    //   owner: 'muadz-askarul',
+    //   name: 'berdikari-space',
+    // },
+    kind: 'local',
   },
   collections: {
     blog: collection({
@@ -60,17 +61,27 @@ export default config({
       label: 'Authors',
       slugField: 'name',
       path: 'src/content/authors/*',
+      format: { contentField: 'content' },
       schema: {
         name: fields.slug({ name: { label: 'Name' } }),
         pronouns: fields.text({ label: 'Pronouns' }),
-        avatar: fields.text({ label: 'Avatar URL' }),
-        bio: fields.text({ label: 'Bio' }),
+        avatar: fields.text({
+          label: 'Avatar URL',
+          validation: { isRequired: true },
+        }),
+        bio: fields.text({
+          label: 'Bio',
+          multiline: true,
+        }),
         mail: fields.text({ label: 'Email' }),
         website: fields.url({ label: 'Website' }),
         twitter: fields.url({ label: 'Twitter' }),
         github: fields.url({ label: 'GitHub' }),
         linkedin: fields.url({ label: 'LinkedIn' }),
         discord: fields.url({ label: 'Discord' }),
+        content: fields.mdx({
+          label: 'Leave this field empty',
+        }),
       },
     }),
     projects: collection({
