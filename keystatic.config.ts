@@ -35,12 +35,11 @@ const postSchema = {
 
 export default config({
   storage: {
-    // kind: 'github',
-    // repo: {
-    //   owner: 'muadz-askarul',
-    //   name: 'berdikari-space',
-    // },
-    kind: 'local',
+    kind: 'github',
+    repo: {
+      owner: 'muadz-askarul',
+      name: 'berdikari-space',
+    }
   },
   collections: {
     blog: collection({
