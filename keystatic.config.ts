@@ -3,17 +3,24 @@ import { config, fields, collection } from '@keystatic/core'
 const postSchema = {
   title: fields.slug({ name: { label: 'Title' } }),
   description: fields.text({ label: 'Description', multiline: true }),
-  date: fields.date({ label: 'Date' }),
+  date: fields.date({ label: 'Date', validation: { isRequired: true } }),
   order: fields.number({ label: 'Order' }),
-  image: fields.text({ label: 'Image Path (relative to file)' }),
-  tags: fields.array(fields.text({ label: 'Tag' }), {
-    label: 'Tags',
-    itemLabel: (props) => props.value,
+  image: fields.text({
+    label: 'Image Path (relative to file)',
+    validation: { isRequired: true },
   }),
+  tags: fields.array(
+    fields.text({ label: 'Tag', validation: { isRequired: true } }),
+    {
+      label: 'Tags',
+      itemLabel: (props) => props.value,
+    },
+  ),
   authors: fields.array(
     fields.relationship({
       label: 'Author',
       collection: 'authors',
+      validation: { isRequired: true },
     }),
     {
       label: 'Authors',
