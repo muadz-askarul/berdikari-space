@@ -72,7 +72,7 @@ export default defineConfig({
   }), mdx(), react(), sitemap(), icon(), markdoc()],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as any],
   },
 
   server: {

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback/* , useState */ } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { NextButton, PrevButton, usePrevNextButtons } from './CarouselControl'

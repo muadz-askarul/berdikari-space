@@ -6,7 +6,7 @@ import { navigate } from 'astro:transitions/client'
 import { cn } from '@/lib/utils'
 import LucideIcon from './lucide-icon'
 
-const MobileMenu = (props: { children?: any }) => {
+const MobileMenu = (/* props: { children?: any } */) => {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {

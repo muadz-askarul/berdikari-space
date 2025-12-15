@@ -60,13 +60,12 @@ export default config({
       label: 'Authors',
       slugField: 'name',
       path: 'src/content/authors/*',
-      format: { data: 'frontmatter' },
       schema: {
         name: fields.slug({ name: { label: 'Name' } }),
         pronouns: fields.text({ label: 'Pronouns' }),
         avatar: fields.text({ label: 'Avatar URL' }),
         bio: fields.text({ label: 'Bio' }),
-        mail: fields.text({ label: 'Email', validation: { isEmail: true } }),
+        mail: fields.text({ label: 'Email' }),
         website: fields.url({ label: 'Website' }),
         twitter: fields.url({ label: 'Twitter' }),
         github: fields.url({ label: 'GitHub' }),
@@ -78,7 +77,6 @@ export default config({
       label: 'Projects',
       slugField: 'name',
       path: 'src/content/projects/*',
-      format: { data: 'frontmatter' },
       schema: {
         name: fields.slug({ name: { label: 'Name' } }),
         description: fields.text({ label: 'Description', multiline: true }),
