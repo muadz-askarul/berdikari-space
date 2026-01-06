@@ -2,12 +2,23 @@ import { config, fields, collection } from '@keystatic/core'
 
 const postSchema = {
   title: fields.slug({ name: { label: 'Title' } }),
-  description: fields.text({ label: 'Description', multiline: true }),
+  description: fields.text({
+    label: 'Description',
+    multiline: true,
+    defaultValue: '',
+  }),
   date: fields.date({ label: 'Date', validation: { isRequired: true } }),
-  order: fields.number({ label: 'Order' }),
-  image: fields.text({
-    label: 'Image Path (relative to file)',
+  order: fields.number({
+    label: 'Order',
+    defaultValue: 0,
+    description: 'default is 0, use order after 0 for sub post',
+  }),
+  image: fields.image({
+    label: 'Banner Image',
     validation: { isRequired: true },
+    directory: 'src/assets/images/posts',
+    publicPath: '@assets/images/posts/',
+    transformFilename: () => 'banner',
   }),
   tags: fields.array(
     fields.text({ label: 'Tag', validation: { isRequired: true } }),
@@ -25,11 +36,18 @@ const postSchema = {
     {
       label: 'Authors',
       itemLabel: (props) => props.value ?? 'Select an author',
+      validation: { length: { min: 1 } },
     },
   ),
   draft: fields.checkbox({ label: 'Draft' }),
   content: fields.mdx({
     label: 'Content',
+    options: {
+      image: {
+        directory: 'src/assets/images/posts',
+        publicPath: '@assets/images/posts/',
+      },
+    },
   }),
 }
 
@@ -39,7 +57,7 @@ export default config({
     repo: {
       owner: 'muadz-askarul',
       name: 'berdikari-space',
-    }
+    },
   },
   collections: {
     blog: collection({
