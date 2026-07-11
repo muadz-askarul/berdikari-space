@@ -61,28 +61,28 @@ export default config({
   },
   collections: {
     blog: collection({
-      label: 'Blog',
+      label: 'Cerita Dari Komunitas',
       slugField: 'title',
       path: 'src/content/blog/*',
       format: { contentField: 'content' },
       schema: postSchema,
     }),
     news: collection({
-      label: 'News',
+      label: 'Tajuk Berdikari',
       slugField: 'title',
       path: 'src/content/news/*',
       format: { contentField: 'content' },
       schema: postSchema,
     }),
     event: collection({
-      label: 'Event',
+      label: 'Acara',
       slugField: 'title',
       path: 'src/content/event/*',
       format: { contentField: 'content' },
       schema: postSchema,
     }),
     authors: collection({
-      label: 'Authors',
+      label: 'Penulis',
       slugField: 'name',
       path: 'src/content/authors/*',
       format: { contentField: 'content' },
@@ -109,7 +109,7 @@ export default config({
       },
     }),
     projects: collection({
-      label: 'Projects',
+      label: 'Proyek',
       slugField: 'name',
       path: 'src/content/projects/*',
       schema: {
