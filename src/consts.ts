@@ -1,5 +1,4 @@
 import type { IconMap, SocialLink, Site, NavLink } from '@/types/types'
-import type { Carousel } from '@/types/carousel'
 
 export const SITE: Site = {
   title: 'Berdikari Space',
@@ -59,19 +58,3 @@ export const ICON_MAP: IconMap = {
   xComIcon: 'xComIcon',
 }
 
-export const CarouselData: Carousel[] = [
-  {
-    title: 'Bekasi Art Exhibition',
-    description: 'Pameran seni di Bekasi',
-    image:
-      'https://images.unsplash.com/photo-1584966393708-db43bab83773?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    href: 'blog/callouts-component',
-  },
-  {
-    title: 'Fufufafa? Ugh!',
-    description: 'Oops, bercandaa~ bercandaa~',
-    image:
-      'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=3474&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    href: 'blog/callouts-component',
-  },
-]
