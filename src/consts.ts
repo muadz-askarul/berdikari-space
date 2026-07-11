@@ -3,7 +3,7 @@ import type { Carousel } from '@/types/carousel'
 
 export const SITE: Site = {
   title: 'Berdikari Space',
-  description: 'Berdikari Space adalah ',
+  description: 'Ruang inkubasi dan laboratorium kreatif di Bekasi — seni budaya, ekologis, sastra, literasi, hingga isu sosial.',
   href: 'https://berdikari-space.vercel.app',
   author: 'muadz_askarul',
   locale: 'id-ID',

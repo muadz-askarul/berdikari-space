@@ -1,4 +1,5 @@
 ---
+import PageHead from '@/components/PageHead.astro'
 import PhotoGallery from '@/components/PhotoGallery.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
@@ -15,5 +16,10 @@ const medium = Astro.props
 ---
 
 <Layout useFlex={false}>
+  <PageHead
+    slot="head"
+    title={medium.data.title}
+    description={medium.data.description}
+  />
   <PhotoGallery images={medium.data.images} />
 </Layout>

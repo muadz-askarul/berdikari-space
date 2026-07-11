@@ -14,7 +14,7 @@ import {
   getAdjacentEvents,
   getAllEvents,
   getCombinedReadingTime,
-  getParentBlog,
+  getParentEvent,
   getParentId,
   getPostReadingTime,
   getSubpostCount,
@@ -38,14 +38,14 @@ export async function getStaticPaths() {
   }))
 }
 
-const post = Astro.props as CollectionEntry<'blog'>
+const post = Astro.props as CollectionEntry<'event'>
 const currentPostId = Astro.params.id
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
 
 const isCurrentSubpost = isSubpost(currentPostId)
 const navigation = await getAdjacentEvents(currentPostId)
-const parentPost = isCurrentSubpost ? await getParentBlog(currentPostId) : null
+const parentPost = isCurrentSubpost ? await getParentEvent(currentPostId) : null
 
 const hasChildPosts = await hasSubposts(currentPostId, 'event')
 const subpostCount = !isCurrentSubpost
@@ -87,26 +87,26 @@ const tocSections = await getTOCSections(currentPostId, 'event')
       <Breadcrumbs
         items={[
           {
-            href: '/blog',
-            label: 'Cerita Dari Komunitas',
+            href: '/event',
+            label: 'Events',
             icon: 'lucide:library-big',
           },
           ...(isCurrentSubpost && parentPost
             ? [
                 {
-                  href: `/blog/${parentPost.id}`,
+                  href: `/event/${parentPost.id}`,
                   label: parentPost.data.title,
                   icon: 'lucide:book-open',
                 },
                 {
-                  href: `/blog/${currentPostId}`,
+                  href: `/event/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:file-text',
                 },
               ]
             : [
                 {
-                  href: `/blog/${currentPostId}`,
+                  href: `/event/${currentPostId}`,
                   label: post.data.title,
                   icon: 'lucide:book-open-text',
                 },

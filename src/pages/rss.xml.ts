@@ -9,6 +9,12 @@ export async function GET(context: APIContext) {
     const news = await getAllPosts('news', false)
     const events = await getAllPosts('event', false)
 
+    const collectionPrefix: Record<string, string> = {
+      blog: '/blog',
+      news: '/news',
+      event: '/event',
+    }
+
     return rss({
       title: SITE.title,
       description: SITE.description,
@@ -17,7 +23,7 @@ export async function GET(context: APIContext) {
         title: post.data.title,
         description: post.data.description,
         pubDate: post.data.date,
-        link: `/blog/${post.id}/`,
+        link: `${collectionPrefix[post.collection]}/${post.id}/`,
       })),
     })
   } catch (error) {

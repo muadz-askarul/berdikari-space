@@ -21,19 +21,17 @@ import { Icon } from 'astro-icon/components'
   <span class="sr-only">Toggle theme</span>
 </Button>
 
-<script is:inline data-astro-rerun>
+<script is:inline>
   const theme = (() => {
-    const localStorageTheme = localStorage?.getItem('theme') ?? ''
-    if (['dark', 'light'].includes(localStorageTheme)) {
-      return localStorageTheme
-    }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'
-    }
-    return 'light'
+    const stored = localStorage?.getItem('theme')
+    if (stored === 'dark' || stored === 'light') return stored
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   })()
 
   document.documentElement.setAttribute('data-theme', theme)
+  document.documentElement.classList.remove('scheme-dark', 'scheme-light')
   document.documentElement.classList.add(
     theme === 'dark' ? 'scheme-dark' : 'scheme-light',
   )
@@ -61,10 +59,10 @@ import { Icon } from 'astro-icon/components'
   }
 
   function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle')
-    if (themeToggle) {
-      themeToggle.addEventListener('click', handleToggleClick)
-    }
+    const btn = document.getElementById('theme-toggle')
+    if (!btn || btn.dataset.themeBound) return
+    btn.dataset.themeBound = 'true'
+    btn.addEventListener('click', handleToggleClick)
   }
 
   initThemeToggle()
@@ -86,7 +84,5 @@ import { Icon } from 'astro-icon/components'
     requestAnimationFrame(() => {
       element.classList.remove('[&_*]:transition-none')
     })
-
-    initThemeToggle()
   })
 </script>

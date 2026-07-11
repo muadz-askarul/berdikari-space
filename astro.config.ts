@@ -25,7 +25,7 @@ import vercel from '@astrojs/vercel';
 import markdoc from '@astrojs/markdoc';
 
 export default defineConfig({
-  site: 'https://astro-erudite.vercel.app',
+  site: 'https://berdikari-space.vercel.app',
 
   integrations: [keystatic(), expressiveCode({
     themes: ['github-light', 'github-dark'],
