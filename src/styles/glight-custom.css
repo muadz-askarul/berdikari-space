@@ -18,3 +18,17 @@
   color: #ccc;
   font-size: 0.875rem;
 }
+
+.gslide-media > img {
+  border-radius: 8px 8px 0 0;
+}
+
+.gslide-description {
+  border-radius: 0 0 8px 8px;
+}
+
+@media (aspect-ratio <= 1 / 1) and (width <= 480px) {
+  .gslide-media > img {
+    border-radius: 8px;
+  }
+}

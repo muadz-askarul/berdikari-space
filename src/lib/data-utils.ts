@@ -298,10 +298,6 @@ export function getParentBlog(subpostId: string) {
   return getParentPost(subpostId, 'blog')
 }
 
-export function getBlogById(postId: string) {
-  return getPostById(postId, 'blog')
-}
-
 export function getRecentBlogs(count: number) {
   return getRecentPosts(count, 'blog')
 }
@@ -316,14 +312,6 @@ export function getAllNews(includeSubposts = false) {
 
 export function getAdjacentNews(currentId: string, includeSubposts = false) {
   return getAdjacentPosts(currentId, 'news', includeSubposts)
-}
-
-export function getParentNews(subpostId: string) {
-  return getParentPost(subpostId, 'news')
-}
-
-export function getNewsById(postId: string) {
-  return getPostById(postId, 'news')
 }
 
 export function getRecentNews(count: number) {
@@ -344,14 +332,6 @@ export function getAdjacentEvents(currentId: string, includeSubposts = false) {
 
 export function getParentEvent(subpostId: string) {
   return getParentPost(subpostId, 'event')
-}
-
-export function getEventById(postId: string) {
-  return getPostById(postId, 'event')
-}
-
-export function getRecentEvents(count: number) {
-  return getRecentPosts(count, 'event')
 }
 
 // =================================================================================

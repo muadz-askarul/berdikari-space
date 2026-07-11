@@ -25,6 +25,24 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="Cerita Dari Komunitas" />
+  {
+    page.currentPage > 1 && (
+      <link
+        rel="prev"
+        href={page.currentPage === 2 ? '/blog/' : `/blog/${page.currentPage - 1}/`}
+        slot="head"
+      />
+    )
+  }
+  {
+    page.currentPage < page.lastPage && (
+      <link
+        rel="next"
+        href={`/blog/${page.currentPage + 1}/`}
+        slot="head"
+      />
+    )
+  }
   <Breadcrumbs
     items={[
       { label: 'Cerita Dari Komunitas', href: '/blog', icon: 'lucide:library-big' },

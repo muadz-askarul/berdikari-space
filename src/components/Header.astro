@@ -17,7 +17,7 @@ import SocialIcons from './SocialIcons.astro'
       <SocialIcons links={SOCIAL_LINKS} position="start" />
     </div>
     <div class="flex items-center sm:gap-4">
-      <MobileMenu client:load transition:persist />
+      <MobileMenu client:load />
     </div>
     <Link
       href="/"
@@ -36,7 +36,7 @@ import SocialIcons from './SocialIcons.astro'
         class="hidden dark:block"
       />
     </Link>
-    <ThemeToggle transition:persist />
+    <ThemeToggle />
   </div>
 
   <div class="mx-auto max-w-3xl px-4">

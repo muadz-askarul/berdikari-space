@@ -12,3 +12,5 @@ pnpm-debug.log*
 teaser.pptx
 ~$teaser.pptx
 package-lock.json
+bun.lock
+.vercel/

@@ -29,7 +29,7 @@ import Favicons from './Favicons.astro'
   />
   <meta
     name="theme-color"
-    content="#121212"
+    content="#fafafa"
     media="(prefers-color-scheme: light)"
   />
 
@@ -44,6 +44,14 @@ import Favicons from './Favicons.astro'
 
   <Favicons />
   <ClientRouter />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE.title,
+    url: SITE.href,
+    description: SITE.description,
+  })} />
 
   <slot />
 </head>

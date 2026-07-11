@@ -13,8 +13,8 @@ export async function getStaticPaths({
 }: {
   paginate: PaginateFunction
 }) {
-  const allEvents = await getAllNews()
-  return paginate(allEvents, { pageSize: SITE.postsPerPage })
+  const allNews = await getAllNews()
+  return paginate(allNews, { pageSize: SITE.postsPerPage })
 }
 
 const { page } = Astro.props
@@ -28,6 +28,24 @@ const years = Object.keys(eventsByYear).sort(
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="Tajuk Berdikari" />
+  {
+    page.currentPage > 1 && (
+      <link
+        rel="prev"
+        href={page.currentPage === 2 ? '/news/' : `/news/${page.currentPage - 1}/`}
+        slot="head"
+      />
+    )
+  }
+  {
+    page.currentPage < page.lastPage && (
+      <link
+        rel="next"
+        href={`/news/${page.currentPage + 1}/`}
+        slot="head"
+      />
+    )
+  }
   <Breadcrumbs
     items={[
       { label: 'Tajuk Berdikari', href: '/news', icon: 'lucide:library-big' },
