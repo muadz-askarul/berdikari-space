@@ -32,6 +32,10 @@ export const NAV_LINKS: NavLink[] = [
     href: '/about',
     label: 'Tentang Kami',
   },
+  {
+    href: '/katalog',
+    label: 'Katalog',
+  },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [

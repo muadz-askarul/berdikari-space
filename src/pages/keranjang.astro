@@ -1,0 +1,16 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import KeranjangPage from '@/components/KeranjangPage'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="Keranjang" />
+  <Breadcrumbs
+    items={[
+      { label: 'Keranjang', href: '/keranjang', icon: 'lucide:shopping-cart' },
+    ]}
+  />
+  <KeranjangPage client:load />
+</Layout>
