@@ -1,4 +1,5 @@
 ---
+import AddToCartButton from '@/components/AddToCartButton'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
@@ -98,13 +99,14 @@ function formatHarga(harga: number): string {
       </p>
 
       <div class="flex flex-wrap gap-3">
-        <button
-          disabled
-          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground opacity-50"
-        >
-          <Icon name="lucide:shopping-cart" class="size-4" />
-          Tambah ke Keranjang
-        </button>
+        <AddToCartButton
+          client:load
+          produkId={produk.id}
+          nama={produk.data.nama}
+          harga={produk.data.harga}
+          gambar={produk.data.gambar[0]?.src ?? ''}
+          showQuantity
+        />
         <button
           disabled
           class="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium opacity-50"

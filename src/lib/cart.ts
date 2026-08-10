@@ -1,3 +1,5 @@
+import { notifyCartChange } from './cart-events'
+
 const STORAGE_KEY = 'berdikari-cart'
 
 export type CartItem = {
@@ -37,11 +39,13 @@ export function addToCart(item: CartItem): void {
     cart.push({ ...item })
   }
   writeCart(cart)
+  notifyCartChange()
 }
 
 export function removeFromCart(produkId: string): void {
   const cart = readCart()
   writeCart(cart.filter((i) => i.produkId !== produkId))
+  notifyCartChange()
 }
 
 export function updateQuantity(produkId: string, quantity: number): void {
@@ -54,11 +58,13 @@ export function updateQuantity(produkId: string, quantity: number): void {
   if (item) {
     item.quantity = quantity
     writeCart(cart)
+    notifyCartChange()
   }
 }
 
 export function clearCart(): void {
   localStorage.removeItem(STORAGE_KEY)
+  notifyCartChange()
 }
 
 export function getTotal(): number {

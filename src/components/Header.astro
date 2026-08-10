@@ -1,6 +1,7 @@
 ---
 import Link from '@/components/Link.astro'
 import ThemeToggle from '@/components/ThemeToggle.astro'
+import CartButton from '@/components/CartButton'
 import MobileMenu from '@/components/ui/mobile-menu'
 import { NAV_LINKS, SOCIAL_LINKS } from '@/consts'
 import { Image } from 'astro:assets'
@@ -36,7 +37,10 @@ import SocialIcons from './SocialIcons.astro'
         class="hidden dark:block"
       />
     </Link>
-    <ThemeToggle />
+    <div class="flex items-center gap-1">
+      <CartButton client:load />
+      <ThemeToggle />
+    </div>
   </div>
 
   <div class="mx-auto max-w-3xl px-4">

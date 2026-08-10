@@ -1,4 +1,5 @@
 ---
+import AddToCartButton from '@/components/AddToCartButton'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import PaginationComponent from '@/components/ui/pagination'
@@ -65,41 +66,53 @@ function formatHarga(harga: number): string {
       </div>
     ) : (
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {page.data.map((produk) => (
-          <a
-            href={`/katalog/${produk.id}`}
-            class="group flex flex-col overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md"
-          >
-            <div class="aspect-square overflow-hidden bg-muted">
-              {
-                produk.data.gambar.length > 0 ? (
-                  <img
-                    src={produk.data.gambar[0].src}
-                    alt={produk.data.gambar[0].title || produk.data.nama}
-                    class="h-full w-full object-cover transition-transform group-hover:scale-105"
-                  />
-                ) : (
-                  <div class="flex h-full w-full items-center justify-center">
-                    <Icon name="lucide:image" class="size-12 text-muted-foreground" />
-                  </div>
-                )
-              }
+        {page.data.map((produk) => {
+          const firstGambar = produk.data.gambar[0]
+          return (
+            <div class="group relative flex flex-col overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md">
+              <a href={`/katalog/${produk.id}`} class="flex flex-col flex-1">
+                <div class="aspect-square overflow-hidden bg-muted">
+                  {
+                    firstGambar ? (
+                      <img
+                        src={firstGambar.src}
+                        alt={firstGambar.title || produk.data.nama}
+                        class="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      />
+                    ) : (
+                      <div class="flex h-full w-full items-center justify-center">
+                        <Icon name="lucide:image" class="size-12 text-muted-foreground" />
+                      </div>
+                    )
+                  }
+                </div>
+                <div class="flex flex-1 flex-col gap-1.5 p-4 pb-2">
+                  <h2 class="line-clamp-2 text-sm font-medium leading-tight group-hover:underline">
+                    {produk.data.nama}
+                  </h2>
+                  {produk.data.deskripsi && (
+                    <p class="line-clamp-2 text-xs text-muted-foreground">
+                      {produk.data.deskripsi}
+                    </p>
+                  )}
+                  <p class="mt-auto pt-2 text-base font-semibold text-primary">
+                    {formatHarga(produk.data.harga)}
+                  </p>
+                </div>
+              </a>
+              <div class="px-4 pb-3">
+                <AddToCartButton
+                  client:load
+                  produkId={produk.id}
+                  nama={produk.data.nama}
+                  harga={produk.data.harga}
+                  gambar={firstGambar?.src ?? ''}
+                  variant="outline"
+                />
+              </div>
             </div>
-            <div class="flex flex-1 flex-col gap-1.5 p-4">
-              <h2 class="line-clamp-2 text-sm font-medium leading-tight group-hover:underline">
-                {produk.data.nama}
-              </h2>
-              {produk.data.deskripsi && (
-                <p class="line-clamp-2 text-xs text-muted-foreground">
-                  {produk.data.deskripsi}
-                </p>
-              )}
-              <p class="mt-auto pt-2 text-base font-semibold text-primary">
-                {formatHarga(produk.data.harga)}
-              </p>
-            </div>
-          </a>
-        ))}
+          )
+        })}
       </div>
     )
   }
