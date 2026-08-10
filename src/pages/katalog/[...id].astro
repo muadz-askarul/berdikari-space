@@ -1,0 +1,123 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { Icon } from 'astro-icon/components'
+import { getCollection, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+
+export async function getStaticPaths() {
+  const semuaProduk = await getCollection('katalog')
+  return semuaProduk
+    .filter((p) => !p.data.draft)
+    .map((produk) => ({
+      params: { id: produk.id },
+      props: produk,
+    }))
+}
+
+const produk = Astro.props as CollectionEntry<'katalog'>
+const { Content } = await render(produk)
+
+function formatHarga(harga: number): string {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(harga)
+}
+---
+
+<Layout>
+  <PageHead
+    slot="head"
+    title={produk.data.nama}
+    description={produk.data.deskripsi}
+  />
+
+  <section
+    class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"
+  >
+    <div class="col-start-2">
+      <Breadcrumbs
+        items={[
+          { href: '/katalog', label: 'Katalog', icon: 'lucide:shopping-bag' },
+          {
+            href: `/katalog/${produk.id}`,
+            label: produk.data.nama,
+            icon: 'lucide:package',
+          },
+        ]}
+      />
+    </div>
+
+    <!-- Gambar Produk -->
+    {
+      produk.data.gambar.length > 0 && (
+        <div class="col-span-full mx-auto w-full max-w-3xl">
+          <div class="overflow-hidden rounded-lg">
+            <img
+              src={produk.data.gambar[0].src}
+              alt={produk.data.gambar[0].title || produk.data.nama}
+              class="w-full object-cover"
+            />
+          </div>
+          {
+            produk.data.gambar.length > 1 && (
+              <div class="mt-3 grid grid-cols-4 gap-3">
+                {produk.data.gambar.slice(1).map((gambar, idx) => (
+                  <div class="overflow-hidden rounded-lg border bg-muted">
+                    <img
+                      src={gambar.src}
+                      alt={gambar.title || `${produk.data.nama} ${idx + 2}`}
+                      class="aspect-square w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      )
+    }
+
+    <!-- Info Produk -->
+    <div class="col-start-2 flex flex-col gap-y-4">
+      <div>
+        <h1 class="text-2xl font-semibold leading-tight sm:text-3xl">
+          {produk.data.nama}
+        </h1>
+        {produk.data.deskripsi && (
+          <p class="mt-2 text-muted-foreground">{produk.data.deskripsi}</p>
+        )}
+      </div>
+
+      <p class="text-2xl font-bold text-primary">
+        {formatHarga(produk.data.harga)}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        <button
+          disabled
+          class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground opacity-50"
+        >
+          <Icon name="lucide:shopping-cart" class="size-4" />
+          Tambah ke Keranjang
+        </button>
+        <button
+          disabled
+          class="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium opacity-50"
+        >
+          <Icon name="lucide:message-circle" class="size-4" />
+          Pesan via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deskripsi Lengkap -->
+    <article class="prose col-start-2 max-w-none">
+      <Content />
+    </article>
+  </section>
+</Layout>

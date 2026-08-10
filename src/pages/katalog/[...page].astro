@@ -1,0 +1,113 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import PaginationComponent from '@/components/ui/pagination'
+import { SITE } from '@/consts'
+import Layout from '@/layouts/Layout.astro'
+import { getAllKatalog } from '@/lib/data-utils'
+import { Icon } from 'astro-icon/components'
+import type { PaginateFunction } from 'astro'
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction
+}) {
+  const semuaProduk = await getAllKatalog()
+  return paginate(semuaProduk, { pageSize: SITE.postsPerPage })
+}
+
+const { page } = Astro.props
+
+function formatHarga(harga: number): string {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(harga)
+}
+---
+
+<Layout class="max-w-3xl">
+  <PageHead slot="head" title="Katalog" />
+  {
+    page.currentPage > 1 && (
+      <link
+        rel="prev"
+        href={page.currentPage === 2 ? '/katalog/' : `/katalog/${page.currentPage - 1}/`}
+        slot="head"
+      />
+    )
+  }
+  {
+    page.currentPage < page.lastPage && (
+      <link
+        rel="next"
+        href={`/katalog/${page.currentPage + 1}/`}
+        slot="head"
+      />
+    )
+  }
+  <Breadcrumbs
+    items={[
+      { label: 'Katalog', href: '/katalog', icon: 'lucide:shopping-bag' },
+      { label: `Halaman ${page.currentPage}`, icon: 'lucide:book-copy' },
+    ]}
+  />
+
+  {
+    page.data.length === 0 ? (
+      <div class="flex min-h-[50vh] flex-col items-center justify-center gap-4 text-center">
+        <Icon name="lucide:package-open" class="size-16 text-muted-foreground" />
+        <p class="text-lg text-muted-foreground">Belum ada produk di katalog.</p>
+        <p class="text-sm text-muted-foreground">Silakan kembali lagi nanti.</p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {page.data.map((produk) => (
+          <a
+            href={`/katalog/${produk.id}`}
+            class="group flex flex-col overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md"
+          >
+            <div class="aspect-square overflow-hidden bg-muted">
+              {
+                produk.data.gambar.length > 0 ? (
+                  <img
+                    src={produk.data.gambar[0].src}
+                    alt={produk.data.gambar[0].title || produk.data.nama}
+                    class="h-full w-full object-cover transition-transform group-hover:scale-105"
+                  />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center">
+                    <Icon name="lucide:image" class="size-12 text-muted-foreground" />
+                  </div>
+                )
+              }
+            </div>
+            <div class="flex flex-1 flex-col gap-1.5 p-4">
+              <h2 class="line-clamp-2 text-sm font-medium leading-tight group-hover:underline">
+                {produk.data.nama}
+              </h2>
+              {produk.data.deskripsi && (
+                <p class="line-clamp-2 text-xs text-muted-foreground">
+                  {produk.data.deskripsi}
+                </p>
+              )}
+              <p class="mt-auto pt-2 text-base font-semibold text-primary">
+                {formatHarga(produk.data.harga)}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    )
+  }
+
+  <PaginationComponent
+    currentPage={page.currentPage}
+    totalPages={page.lastPage}
+    baseUrl="/katalog/"
+    client:load
+  />
+</Layout>
