@@ -19,6 +19,7 @@ import {
   SheetClose,
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
+import WhatsAppButton from '@/components/WhatsAppButton'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 
@@ -159,9 +160,7 @@ export default function CartButton() {
                   {formatHarga(total)}
                 </span>
               </div>
-              <Button variant="outline" disabled className="w-full gap-2">
-                Pesan via WhatsApp
-              </Button>
+              <WhatsAppButton items={cart} className="w-full" />
               <SheetClose asChild>
                 <a
                   href="/keranjang"

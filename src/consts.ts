@@ -8,6 +8,7 @@ export const SITE: Site = {
   locale: 'id-ID',
   featuredPostCount: 5,
   postsPerPage: 10,
+  whatsappNumber: '6281234567890',
 }
 
 export const NAV_LINKS: NavLink[] = [

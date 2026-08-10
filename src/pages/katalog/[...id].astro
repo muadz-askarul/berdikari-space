@@ -1,6 +1,6 @@
 ---
-import AddToCartButton from '@/components/AddToCartButton'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import ProductActions from '@/components/ProductActions'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { Icon } from 'astro-icon/components'
@@ -98,23 +98,13 @@ function formatHarga(harga: number): string {
         {formatHarga(produk.data.harga)}
       </p>
 
-      <div class="flex flex-wrap gap-3">
-        <AddToCartButton
-          client:load
-          produkId={produk.id}
-          nama={produk.data.nama}
-          harga={produk.data.harga}
-          gambar={produk.data.gambar[0]?.src ?? ''}
-          showQuantity
-        />
-        <button
-          disabled
-          class="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium opacity-50"
-        >
-          <Icon name="lucide:message-circle" class="size-4" />
-          Pesan via WhatsApp
-        </button>
-      </div>
+      <ProductActions
+        client:load
+        produkId={produk.id}
+        nama={produk.data.nama}
+        harga={produk.data.harga}
+        gambar={produk.data.gambar[0]?.src ?? ''}
+      />
     </div>
 
     <!-- Deskripsi Lengkap -->

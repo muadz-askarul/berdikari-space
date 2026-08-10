@@ -17,6 +17,7 @@ export type Site = {
   locale: string
   featuredPostCount: number
   postsPerPage: number
+  whatsappNumber: string
 }
 
 export type NavLink = {
