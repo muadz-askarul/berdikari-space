@@ -80,4 +80,24 @@ const media = defineCollection({
     }),
 })
 
-export const collections = { blog, authors, projects, event, news, media }
+const katalog = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/katalog' }),
+  schema: () =>
+    z.object({
+      nama: z.string(),
+      deskripsi: z.string().optional(),
+      harga: z.number(),
+      gambar: z
+        .array(
+          z.object({
+            src: z.string(),
+            title: z.string(),
+          }),
+        )
+        .min(1),
+      draft: z.boolean().optional(),
+      order: z.number().optional(),
+    }),
+})
+
+export const collections = { blog, authors, projects, event, news, media, katalog }

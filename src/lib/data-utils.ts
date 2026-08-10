@@ -397,6 +397,22 @@ export function groupMediaByYear(
 }
 
 // =================================================================================
+// KATALOG
+// =================================================================================
+
+export async function getAllKatalog(): Promise<CollectionEntry<'katalog'>[]> {
+  const katalog = await getCollection('katalog')
+  return katalog
+    .filter((produk) => !produk.data.draft)
+    .sort((a, b) => {
+      const orderA = a.data.order ?? 0
+      const orderB = b.data.order ?? 0
+      if (orderA !== orderB) return orderA - orderB
+      return a.data.nama.localeCompare(b.data.nama)
+    })
+}
+
+// =================================================================================
 // TAGS
 // =================================================================================
 

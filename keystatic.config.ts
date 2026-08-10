@@ -125,6 +125,54 @@ export default config({
         endDate: fields.date({ label: 'End Date' }),
       },
     }),
+    katalog: collection({
+      label: 'Katalog',
+      slugField: 'nama',
+      path: 'src/content/katalog/*',
+      format: { contentField: 'content' },
+      schema: {
+        nama: fields.slug({ name: { label: 'Nama Produk' } }),
+        deskripsi: fields.text({
+          label: 'Deskripsi Singkat',
+          multiline: true,
+          defaultValue: '',
+        }),
+        harga: fields.number({
+          label: 'Harga (Rp)',
+          validation: { isRequired: true },
+        }),
+        gambar: fields.array(
+          fields.object({
+            src: fields.image({
+              label: 'Gambar',
+              validation: { isRequired: true },
+              directory: 'src/assets/images/katalog',
+              publicPath: '@assets/images/katalog/',
+            }),
+            title: fields.text({ label: 'Judul Gambar' }),
+          }),
+          {
+            label: 'Gambar Produk',
+            itemLabel: (props) => props.fields.title.value || 'Gambar',
+            validation: { length: { min: 1 } },
+          },
+        ),
+        draft: fields.checkbox({ label: 'Draft' }),
+        order: fields.number({
+          label: 'Order',
+          defaultValue: 0,
+        }),
+        content: fields.mdx({
+          label: 'Deskripsi Lengkap',
+          options: {
+            image: {
+              directory: 'src/assets/images/katalog',
+              publicPath: '@assets/images/katalog/',
+            },
+          },
+        }),
+      },
+    }),
     media: collection({
       label: 'Media',
       slugField: 'title',
