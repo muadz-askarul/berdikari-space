@@ -40,7 +40,7 @@ const kaosItem: CartItem = {
   produkId: 'kaos-berdikari',
   nama: 'Kaos Berdikari',
   harga: 150000,
-  gambar: '@assets/images/katalog/kaos-berdikari.jpg',
+  gambar: '/images/katalog/kaos-berdikari.jpg',
   quantity: 1,
 }
 
@@ -48,7 +48,7 @@ const stikerItem: CartItem = {
   produkId: 'stiker-berdikari',
   nama: 'Stiker Berdikari',
   harga: 15000,
-  gambar: '@assets/images/katalog/stiker.jpg',
+  gambar: '/images/katalog/stiker.jpg',
   quantity: 2,
 }
 

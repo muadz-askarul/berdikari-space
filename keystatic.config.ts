@@ -146,8 +146,8 @@ export default config({
             src: fields.image({
               label: 'Gambar',
               validation: { isRequired: true },
-              directory: 'src/assets/images/katalog',
-              publicPath: '@assets/images/katalog/',
+              directory: 'public/images/katalog',
+              publicPath: '/images/katalog/',
             }),
             title: fields.text({ label: 'Judul Gambar' }),
           }),
@@ -166,8 +166,8 @@ export default config({
           label: 'Deskripsi Lengkap',
           options: {
             image: {
-              directory: 'src/assets/images/katalog',
-              publicPath: '@assets/images/katalog/',
+              directory: 'public/images/katalog',
+              publicPath: '/images/katalog/',
             },
           },
         }),
