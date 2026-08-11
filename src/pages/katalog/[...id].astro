@@ -5,6 +5,8 @@ import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
+import 'glightbox/dist/css/glightbox.css'
+import '../../styles/glight-custom.css'
 
 export async function getStaticPaths() {
   const semuaProduk = await getCollection('katalog')
@@ -57,22 +59,36 @@ function formatHarga(harga: number): string {
       produk.data.gambar.length > 0 && (
         <div class="col-span-full mx-auto w-full max-w-3xl">
           <div class="overflow-hidden rounded-lg">
-            <img
-              src={produk.data.gambar[0].src}
-              alt={produk.data.gambar[0].title || produk.data.nama}
-              class="w-full object-cover"
-            />
+            <a
+              href={produk.data.gambar[0].src}
+              class="glightbox block"
+              data-gallery="katalog"
+              data-glightbox={`title: ${produk.data.gambar[0].title || produk.data.nama}`}
+            >
+              <img
+                src={produk.data.gambar[0].src}
+                alt={produk.data.gambar[0].title || produk.data.nama}
+                class="w-full object-cover cursor-zoom-in"
+              />
+            </a>
           </div>
           {
             produk.data.gambar.length > 1 && (
               <div class="mt-3 grid grid-cols-4 gap-3">
                 {produk.data.gambar.slice(1).map((gambar, idx) => (
                   <div class="overflow-hidden rounded-lg border bg-muted">
-                    <img
-                      src={gambar.src}
-                      alt={gambar.title || `${produk.data.nama} ${idx + 2}`}
-                      class="aspect-square w-full object-cover"
-                    />
+                    <a
+                      href={gambar.src}
+                      class="glightbox block"
+                      data-gallery="katalog"
+                      data-glightbox={`title: ${gambar.title || `${produk.data.nama} ${idx + 2}`}`}
+                    >
+                      <img
+                        src={gambar.src}
+                        alt={gambar.title || `${produk.data.nama} ${idx + 2}`}
+                        class="aspect-square w-full object-cover cursor-zoom-in"
+                      />
+                    </a>
                   </div>
                 ))}
               </div>
@@ -111,4 +127,15 @@ function formatHarga(harga: number): string {
       <Content />
     </article>
   </section>
+
+  <script>
+    import GLightbox from 'glightbox'
+    GLightbox({
+      selector: '.glightbox',
+      openEffect: 'zoom',
+      closeEffect: 'fade',
+      width: 'auto',
+      height: 'auto',
+    })
+  </script>
 </Layout>
