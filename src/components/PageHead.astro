@@ -5,14 +5,17 @@ interface Props {
   title?: string
   description?: string
   noindex?: boolean
+  image?: string
 }
 
 const {
   title = SITE.title,
   description = SITE.description,
   noindex = false,
+  image: imageProp,
 } = Astro.props
-const image = new URL('/static/1200x630.png', Astro.site)
+const defaultImage = new URL('/static/1200x630.png', Astro.site)
+const image = imageProp ? new URL(imageProp, Astro.site) : defaultImage
 ---
 
 <title>{`${title} | ${SITE.title}`}</title>

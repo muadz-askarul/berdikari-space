@@ -10,13 +10,19 @@ export type CartItem = {
   quantity: number
 }
 
-function readCart(): CartItem[] {
+function readCart(raw?: string | null): CartItem[] {
+  let value = raw
+  if (value === undefined) {
+    try {
+      value = localStorage.getItem(STORAGE_KEY)
+    } catch {
+      value = null
+    }
+  }
+  if (!value) return []
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    if (!Array.isArray(parsed)) return []
-    return parsed
+    const parsed = JSON.parse(value)
+    return Array.isArray(parsed) ? parsed : []
   } catch {
     return []
   }
@@ -26,8 +32,19 @@ function writeCart(items: CartItem[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
 }
 
+let cache: { raw: string | null; items: CartItem[] } | null = null
+
 export function getCart(): CartItem[] {
-  return readCart()
+  let raw: string | null
+  try {
+    raw = localStorage.getItem(STORAGE_KEY)
+  } catch {
+    raw = null // SSR / no localStorage
+  }
+  if (cache && cache.raw === raw) return cache.items
+  const items = readCart(raw)
+  cache = { raw, items }
+  return items
 }
 
 export function addToCart(item: CartItem): void {

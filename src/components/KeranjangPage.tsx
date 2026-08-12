@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { Separator } from '@/components/ui/separator'
 
+const EMPTY_CART: CartItem[] = []
+
 function formatHarga(harga: number): string {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -27,11 +29,7 @@ function useCartStore() {
     return onCartChange(callback)
   }, [])
 
-  const cart = useSyncExternalStore(
-    subscribe,
-    () => getCart(),
-    () => [],
-  )
+  const cart = useSyncExternalStore(subscribe, () => getCart(), () => EMPTY_CART)
 
   const total = cart.reduce((sum, item) => sum + item.harga * item.quantity, 0)
 
