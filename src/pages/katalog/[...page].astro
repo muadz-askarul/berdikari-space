@@ -65,7 +65,7 @@ function formatHarga(harga: number): string {
         <p class="text-sm text-muted-foreground">Silakan kembali lagi nanti.</p>
       </div>
     ) : (
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
         {page.data.map((produk) => {
           const firstGambar = produk.data.gambar[0]
           return (

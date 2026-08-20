@@ -20,18 +20,18 @@ const stiker: CartItem = {
 
 describe('buildWhatsAppMessage', () => {
   it('returns a wa.me URL with the correct phone number', () => {
-    const url = buildWhatsAppMessage([kaos], '6281234567890')
-    expect(url).toMatch(/^https:\/\/wa\.me\/6281234567890\?text=/)
+    const url = buildWhatsAppMessage([kaos], '+6285648813712')
+    expect(url).toMatch(/^https:\/\/wa\.me\/+6285648813712\?text=/)
   })
 
   it('encodes the message in the URL', () => {
-    const url = buildWhatsAppMessage([kaos], '6281234567890')
+    const url = buildWhatsAppMessage([kaos], '+6285648813712')
     expect(url).toContain('Kaos%20Berdikari')
     expect(url).toContain('Rp')
   })
 
   it('includes item name, quantity, unit price, and subtotal', () => {
-    const url = buildWhatsAppMessage([kaos], '6281234567890')
+    const url = buildWhatsAppMessage([kaos], '+6285648813712')
     const text = decodeURIComponent(url.split('?text=')[1])
     expect(text).toContain('Kaos Berdikari')
     expect(text).toContain('x2')
@@ -39,19 +39,19 @@ describe('buildWhatsAppMessage', () => {
   })
 
   it('includes total for multiple items', () => {
-    const url = buildWhatsAppMessage([kaos, stiker], '6281234567890')
+    const url = buildWhatsAppMessage([kaos, stiker], '+6285648813712')
     const text = decodeURIComponent(url.split('?text=')[1])
     expect(text).toContain('Total')
     expect(text).toContain('315.000') // 300000 + 15000
   })
 
   it('handles empty cart gracefully', () => {
-    const url = buildWhatsAppMessage([], '6281234567890')
-    expect(url).toMatch(/^https:\/\/wa\.me\/6281234567890\?text=/)
+    const url = buildWhatsAppMessage([], '+6285648813712')
+    expect(url).toMatch(/^https:\/\/wa\.me\/+6285648813712\?text=/)
   })
 
   it('formats greeting in Indonesian', () => {
-    const url = buildWhatsAppMessage([kaos], '6281234567890')
+    const url = buildWhatsAppMessage([kaos], '+6285648813712')
     const text = decodeURIComponent(url.split('?text=')[1])
     expect(text).toContain('Halo')
   })

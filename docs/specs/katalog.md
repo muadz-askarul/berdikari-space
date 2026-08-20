@@ -94,7 +94,7 @@ Message format: a greeting, an enumerated list of items with quantity × price =
 
 ### WhatsApp phone number
 
-New field in `consts.ts`: `whatsappNumber` — the admin's WhatsApp number in international format without `+` (e.g. `6281234567890`). Used by the WhatsApp message builder.
+New field in `consts.ts`: `whatsappNumber` — the admin's WhatsApp number in international format without `+` (e.g. `+6285648813712`). Used by the WhatsApp message builder.
 
 ### Images on detail page
 

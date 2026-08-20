@@ -3,6 +3,7 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import ProductActions from '@/components/ProductActions'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
+import { SITE } from '@/consts'
 import { getCollection, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import 'glightbox/dist/css/glightbox.css'
@@ -36,7 +37,40 @@ function formatHarga(harga: number): string {
     slot="head"
     title={produk.data.nama}
     description={produk.data.deskripsi}
+    image={produk.data.gambar.length > 0 ? produk.data.gambar[0].src : undefined}
   />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: produk.data.nama,
+    description: produk.data.deskripsi,
+    image: produk.data.gambar.map((g) => new URL(g.src, Astro.site)),
+    offers: {
+      '@type': 'Offer',
+      price: produk.data.harga,
+      priceCurrency: 'IDR',
+      availability: 'https://schema.org/InStock',
+      url: new URL(Astro.url.pathname, Astro.site),
+    },
+  })} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Katalog',
+        item: `${SITE.href}/katalog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: produk.data.nama,
+        item: new URL(Astro.url.pathname, Astro.site),
+      },
+    ],
+  })} />
 
   <section
     class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"

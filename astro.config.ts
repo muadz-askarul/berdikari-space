@@ -25,7 +25,7 @@ import vercel from '@astrojs/vercel';
 import markdoc from '@astrojs/markdoc';
 
 export default defineConfig({
-  site: 'https://berdikari-space.vercel.app',
+  site: 'https://berdikarispace.com',
 
   integrations: [keystatic(), expressiveCode({
     themes: ['github-light', 'github-dark'],
@@ -69,7 +69,15 @@ export default defineConfig({
       },
       uiFontFamily: 'var(--font-sans)',
     },
-  }), mdx(), react(), sitemap(), icon(), markdoc()],
+  }), mdx(), react(), sitemap({
+    filter: (page) => {
+      const path = new URL(page).pathname
+      if (path === '/404/') return false
+      const segments = path.split('/').filter(Boolean)
+      // subposts are nested parent/child (e.g. /blog/parent/child) — noindex, exclude
+      return segments.length <= 2
+    },
+  }), icon(), markdoc()],
 
   vite: {
     plugins: [tailwindcss() as any],

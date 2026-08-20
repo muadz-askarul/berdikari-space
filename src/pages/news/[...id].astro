@@ -8,12 +8,14 @@ import TOCSidebar from '@/components/TOCSidebar.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
+import { SITE } from '@/consts'
 import {
   getAdjacentNews,
   getAllNews,
   getCombinedReadingTime,
   getPostReadingTime,
   getTOCSections,
+  isSubpost,
   parseAuthors,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
@@ -35,6 +37,7 @@ const post = Astro.props as  CollectionEntry<'news'>
 const post_id = Astro.props.id
 const { Content, headings } = await render(post)
 const authors = await parseAuthors(post.data.authors ?? [])
+const isCurrentSubpost = isSubpost(post_id)
 const navigation = await getAdjacentNews(post_id)
 const postReadingTime = await getPostReadingTime(post_id, 'news')
 const combinedReadingTime = (await getCombinedReadingTime(post_id, 'news')) ?? null
@@ -43,6 +46,28 @@ const tocSections = await getTOCSections(post_id, 'news')
 
 <Layout>
   <PostHead slot="head" post={post} />
+  {
+    !isCurrentSubpost && (
+      <script is:inline type="application/ld+json" slot="head" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Tajuk Berdikari',
+            item: `${SITE.href}/news`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: post.data.title,
+            item: new URL(Astro.url.pathname, Astro.site),
+          },
+        ],
+      })} />
+    )
+  }
   {
     headings?.length > 0 &&
       !(headings.length === 1 && headings[0].text === post.data.title) && (

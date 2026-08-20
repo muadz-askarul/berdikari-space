@@ -3,12 +3,12 @@ import type { IconMap, SocialLink, Site, NavLink } from '@/types/types'
 export const SITE: Site = {
   title: 'Berdikari Space',
   description: 'Ruang inkubasi dan laboratorium kreatif di Bekasi — seni budaya, ekologis, sastra, literasi, hingga isu sosial.',
-  href: 'https://berdikari-space.vercel.app',
+  href: 'https://berdikarispace.com',
   author: 'muadz_askarul',
   locale: 'id-ID',
   featuredPostCount: 5,
   postsPerPage: 10,
-  whatsappNumber: '6281234567890',
+  whatsappNumber: '+6285648813712',
 }
 
 export const NAV_LINKS: NavLink[] = [
