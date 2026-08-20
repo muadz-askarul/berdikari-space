@@ -9,18 +9,22 @@ import { getRecentBlogs, getRecentNews } from '@/lib/data-utils'
 import { Image } from 'astro:assets'
 
 const news = await getRecentNews(SITE.featuredPostCount)
-const featuredNews = news.splice(0, 2).map((item) => ({
-  ...item.data,
-  href: `/news/${item.id}`,
-}))
+const featuredNews = /* news.splice(0, 2)*/ [news?.[0], news?.[1]]
+  .filter((data) => !!data)
+  .map((item) => ({
+    ...item.data,
+    href: `/news/${item.id}`,
+  }))
 
-const blog = await getRecentBlogs(SITE.featuredPostCount)
-const featuredBlog = blog.splice(0, 2).map((item) => ({
-  ...item.data,
-  href: `/blog/${item.id}`,
-}))
+const blogs = await getRecentBlogs(SITE.featuredPostCount)
+const featuredBlogs = /* blog.splice(0, 2)*/ [blogs?.[0], news?.[1]]
+  .filter((data) => !!data)
+  .map((item) => ({
+    ...item.data,
+    href: `/blog/${item.id}`,
+  }))
 
-const carouselData = [...featuredNews, ...featuredBlog]
+const carouselData = [...featuredNews, ...featuredBlogs]
 ---
 
 <Layout class="max-w-3xl">
@@ -56,54 +60,36 @@ const carouselData = [...featuredNews, ...featuredBlog]
       }
     </Carousel>
   </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">
-      <Link href="/news"> Tajuk Berdikari </Link>
-    </h2>
-    <ul class="flex flex-col">
-      {
-        news.map((post) => (
-          <li>
-            <BlogCard entry={post} />
-          </li>
-        ))
-      }
-    </ul>
-    <!-- <div class="flex justify-center">
-      <Link
-        href="/news"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
-      >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
-          >&rarr;</span
-        >
-      </Link>
-    </div> -->
-  </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">
-      <Link href="/blog">Cerita Dari Komunitas</Link>
-    </h2>
-    <ul class="flex flex-col">
-      {
-        blog.map((post) => (
-          <li>
-            <BlogCard entry={post} />
-          </li>
-        ))
-      }
-    </ul>
-    <!-- <div class="flex justify-center">
-      <Link
-        href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
-      >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
-          >&rarr;</span
-        >
-      </Link>
-    </div> -->
-  </section>
+  {
+    !!news.length && (
+      <section class="flex flex-col gap-y-4">
+        <h2 class="text-2xl font-medium">
+          <Link href="/news"> Tajuk Berdikari </Link>
+        </h2>
+        <ul class="flex flex-col">
+          {news.map((post) => (
+            <li>
+              <BlogCard entry={post} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+  {
+    !!blogs.length && (
+      <section class="flex flex-col gap-y-4">
+        <h2 class="text-2xl font-medium">
+          <Link href="/blog">Cerita Dari Komunitas</Link>
+        </h2>
+        <ul class="flex flex-col">
+          {blogs.map((post) => (
+            <li>
+              <BlogCard entry={post} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 </Layout>
