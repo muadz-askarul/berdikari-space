@@ -24,7 +24,7 @@ Goal: close identified SEO gaps on berdikari-space (Astro 7, Vercel). Baseline e
 ```
 User-agent: *
 Allow: /
-Sitemap: https://berdikarispace.com/sitemap-index.xml
+Sitemap: https://www.berdikarispace.com/sitemap-index.xml
 ```
 
 ### 2. Sitemap filter — exclude noindex pages (`astro.config.ts`)
@@ -94,7 +94,7 @@ Match existing visual breadcrumbs. Katalog detail already renders `<Breadcrumbs>
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Katalog", "item": "https://berdikarispace.com/katalog" },
+    { "@type": "ListItem", "position": 1, "name": "Katalog", "item": "https://www.berdikarispace.com/katalog" },
     { "@type": "ListItem", "position": 2, "name": produk.data.nama, "item": "<current url>" }
   ]
 }

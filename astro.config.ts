@@ -25,7 +25,7 @@ import vercel from '@astrojs/vercel'
 import markdoc from '@astrojs/markdoc'
 
 export default defineConfig({
-  site: 'https://berdikarispace.com',
+  site: 'https://www.berdikarispace.com',
 
   integrations: [
     keystatic(),

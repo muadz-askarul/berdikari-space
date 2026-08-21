@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site, NavLink } from '@/types/types'
 export const SITE: Site = {
   title: 'Berdikari Space',
   description: 'Ruang inkubasi dan laboratorium kreatif di Bekasi — seni budaya, ekologis, sastra, literasi, hingga isu sosial.',
-  href: 'https://berdikarispace.com',
+  href: 'https://www.berdikarispace.com',
   author: 'muadz_askarul',
   locale: 'id-ID',
   featuredPostCount: 5,
