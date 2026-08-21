@@ -20,64 +20,76 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 import tailwindcss from '@tailwindcss/vite'
 
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel'
 
-import markdoc from '@astrojs/markdoc';
+import markdoc from '@astrojs/markdoc'
 
 export default defineConfig({
   site: 'https://berdikarispace.com',
 
-  integrations: [keystatic(), expressiveCode({
-    themes: ['github-light', 'github-dark'],
-    plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
-    useDarkModeMediaQuery: false,
-    themeCssSelector: (theme) => `[data-theme="${theme.name.split('-')[1]}"]`,
-    defaultProps: {
-      wrap: true,
-      collapseStyle: 'collapsible-auto',
-      overridesByLang: {
-        'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
-          {
-            showLineNumbers: false,
-          },
+  integrations: [
+    keystatic(),
+    expressiveCode({
+      themes: ['github-light', 'github-dark'],
+      plugins: [pluginCollapsibleSections(), pluginLineNumbers()],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => `[data-theme="${theme.name.split('-')[1]}"]`,
+      defaultProps: {
+        wrap: true,
+        collapseStyle: 'collapsible-auto',
+        overridesByLang: {
+          'ansi,bat,bash,batch,cmd,console,powershell,ps,ps1,psd1,psm1,sh,shell,shellscript,shellsession,text,zsh':
+            {
+              showLineNumbers: false,
+            },
+        },
       },
-    },
-    styleOverrides: {
-      codeFontSize: '0.75rem',
-      borderColor: 'var(--border)',
-      codeFontFamily: 'var(--font-mono)',
-      codeBackground:
-        'color-mix(in oklab, var(--secondary) 25%, transparent)',
-      frames: {
-        editorActiveTabForeground: 'var(--muted-foreground)',
-        editorActiveTabBackground:
+      styleOverrides: {
+        codeFontSize: '0.75rem',
+        borderColor: 'var(--border)',
+        codeFontFamily: 'var(--font-mono)',
+        codeBackground:
           'color-mix(in oklab, var(--secondary) 25%, transparent)',
-        editorActiveTabIndicatorBottomColor: 'transparent',
-        editorActiveTabIndicatorTopColor: 'transparent',
-        editorTabBorderRadius: '0',
-        editorTabBarBackground: 'transparent',
-        editorTabBarBorderBottomColor: 'transparent',
-        frameBoxShadowCssValue: 'none',
-        terminalBackground:
-          'color-mix(in oklab, var(--secondary) 25%, transparent)',
-        terminalTitlebarBackground: 'transparent',
-        terminalTitlebarBorderBottomColor: 'transparent',
-        terminalTitlebarForeground: 'var(--muted-foreground)',
+        frames: {
+          editorActiveTabForeground: 'var(--muted-foreground)',
+          editorActiveTabBackground:
+            'color-mix(in oklab, var(--secondary) 25%, transparent)',
+          editorActiveTabIndicatorBottomColor: 'transparent',
+          editorActiveTabIndicatorTopColor: 'transparent',
+          editorTabBorderRadius: '0',
+          editorTabBarBackground: 'transparent',
+          editorTabBarBorderBottomColor: 'transparent',
+          frameBoxShadowCssValue: 'none',
+          terminalBackground:
+            'color-mix(in oklab, var(--secondary) 25%, transparent)',
+          terminalTitlebarBackground: 'transparent',
+          terminalTitlebarBorderBottomColor: 'transparent',
+          terminalTitlebarForeground: 'var(--muted-foreground)',
+        },
+        lineNumbers: {
+          foreground: 'var(--muted-foreground)',
+        },
+        uiFontFamily: 'var(--font-sans)',
       },
-      lineNumbers: {
-        foreground: 'var(--muted-foreground)',
+    }),
+    mdx(),
+    react(),
+    sitemap({
+      filter: (page) => {
+        const path = new URL(page).pathname
+        if (path === '/404/') return false
+        const segments = path.split('/').filter(Boolean)
+        // subposts are nested parent/child (e.g. /blog/parent/child) — noindex, exclude
+        return segments.length <= 2
       },
-      uiFontFamily: 'var(--font-sans)',
-    },
-  }), mdx(), react(), sitemap({
-    filter: (page) => {
-      const path = new URL(page).pathname
-      if (path === '/404/') return false
-      const segments = path.split('/').filter(Boolean)
-      // subposts are nested parent/child (e.g. /blog/parent/child) — noindex, exclude
-      return segments.length <= 2
-    },
-  }), icon(), markdoc()],
+    }),
+    icon(),
+    markdoc(),
+  ],
+
+  redirects: {
+    '/admin': '/keystatic',
+  },
 
   vite: {
     plugins: [tailwindcss() as any],
