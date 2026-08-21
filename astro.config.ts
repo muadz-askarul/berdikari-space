@@ -87,9 +87,9 @@ export default defineConfig({
     markdoc(),
   ],
 
-  redirects: {
-    '/admin': '/keystatic',
-  },
+  // redirects: {
+  //   '/admin': '/keystatic',
+  // },
 
   vite: {
     plugins: [tailwindcss() as any],
